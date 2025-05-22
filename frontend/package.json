@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.14.0",
     "bims": "file:..",
     "framer-motion": "^12.12.1",
+    "mern-not_shopee": "file:..",
     "next-themes": "^0.4.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
