@@ -5,6 +5,9 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import CreatePage from "../pages/CreatePage";
 import Navbar from "../components/Navbar";
+//Category pages
+import IndexCategory from "../pages/category/IndexCategory";
+import AddCategory from "../pages/category/AddCategory";
 
 function App() {
 
@@ -14,6 +17,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/create" element={<CreatePage />} />
+
+        {/* Category pages routes */}
+        <Route path="/category" element={<IndexCategory />} />
+        <Route path="/category/add" element={<AddCategory />} />
       </Routes>
     </Box>
   )

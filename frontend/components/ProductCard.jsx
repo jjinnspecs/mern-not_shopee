@@ -216,7 +216,7 @@ const ProductCard = ({ product }) => {
                         
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={() => handleUpdateProduct(product._id, updatedProduct)}>Update</Button>
+                        <Button colorScheme='blue' mr={3} onClick={() => handleUpdateProduct(product._id, updatedProduct)}>Add</Button>
                         <Button onClick={onUpdateClose}>Cancel</Button>
                     </ModalFooter>
                 </ModalContent>
