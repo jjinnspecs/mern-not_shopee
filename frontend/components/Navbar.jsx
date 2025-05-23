@@ -55,7 +55,7 @@ const Navbar = () => {
             <Link to={"/create"}>
             <Button>
                 <CgAdd size={20} />
-                <Text ml={2}>Create</Text>
+                <Text ml={2}>Add Product</Text>
             </Button>
             </Link>
             <Button onClick={toggleColorMode}>
