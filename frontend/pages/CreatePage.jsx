@@ -1,6 +1,7 @@
-import { Container, Heading, Box, Input, Button, VStack, useToast, useColorModeValue } from "@chakra-ui/react";
-import { useState } from "react";
+import { Container, Heading, Box, Input, Button, VStack, useToast, useColorModeValue, Select } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { useProductStore } from "../src/store/product.js";
+import { useCategoryStore } from "../src/store/category.js";
 
 const CreatePage = () => {
   const [newProduct, setNewProduct] = useState({
@@ -35,11 +36,17 @@ const toast = useToast();
       setNewProduct({
         name: "",
         price: "",
+        category: "",
         image: "",
       });
     }
 
   }
+
+  const { fetchCategories, categories } = useCategoryStore();
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   return (<Container maxW={"container.sm"}>
     <VStack spacing={8}>
@@ -70,6 +77,20 @@ const toast = useToast();
           value={newProduct.price}
           onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
           />
+
+        <Select
+          mb={2}
+          placeholder="Select Category"
+          name="category"
+          value={newProduct.category}
+          onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}>
+            
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </Select>
         <Input
           mb={4}
           placeholder="Product Image URL"

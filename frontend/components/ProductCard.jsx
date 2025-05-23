@@ -24,11 +24,13 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    Input
+    Input,
+    Select,
 } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useProductStore } from '../src/store/product';
 import { useState } from 'react';
+import { useCategoryStore } from '../src/store/category';
 
 const ProductCard = ({ product }) => {
 
@@ -122,6 +124,15 @@ const ProductCard = ({ product }) => {
         }
     };
 
+    const categories = useCategoryStore((state) => state.categories);
+    const fetchCategories = useCategoryStore((state) => state.fetchCategories);
+    useEffect(() => {
+        fetchCategories();
+    }, [fetchCategories]);
+    const category = categories.find((category) => category._id === product.category);
+    const categoryName = category ? category.name : 'Unknown Category';
+
+
     return (
         <Box
             shadow='lg'
@@ -146,6 +157,10 @@ const ProductCard = ({ product }) => {
 
                 <Text fontSize='lg' color='gray.500'>
                     $ {product.price}
+                </Text>
+
+                <Text fontSize='md' color='gray.500' mb={4}>
+                    Category: {categoryName}
                 </Text>
 
                 <HStack spacing={2}>
@@ -206,6 +221,19 @@ const ProductCard = ({ product }) => {
                                 value={updatedProduct.price}
                                 onChange={(e) => setUpdatedProduct({ ...updatedProduct, price: e.target.value })}
                             ></Input>
+
+                            <Select
+                                placeholder="Select Category"
+                                name="category"
+                                value={updatedProduct.category}
+                                onChange={(e) => setUpdatedProduct({ ...updatedProduct, category: e.target.value})}
+                            >
+                                {categories.map((category) => (
+                                    <option key={category._id} value={category._id}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </Select>
                             <Input
                                 placeholder='Product Image'
                                 name='image'
@@ -216,7 +244,7 @@ const ProductCard = ({ product }) => {
                         
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={() => handleUpdateProduct(product._id, updatedProduct)}>Add</Button>
+                        <Button colorScheme='blue' mr={3} onClick={() => handleUpdateProduct(product._id, updatedProduct)}>Update</Button>
                         <Button onClick={onUpdateClose}>Cancel</Button>
                     </ModalFooter>
                 </ModalContent>
