@@ -26,7 +26,8 @@ import { Container, Text, VStack, Input, Button,
     AlertDialogFooter,
     AlertDialogOverlay,
     AlertDialogCloseButton,
-    useColorModeValue
+    useColorModeValue,
+    Heading,
 
  } from "@chakra-ui/react";
 
@@ -149,13 +150,12 @@ const IndexCategory = () => {
   return (
     <Container maxW={"container.xl"} p={12}>
       <VStack spacing={8} align="stretch">
-        <Text
-          fontSize="3xl"
+        <Heading as={"h1"} size={{ base:"lg", md: "xl"}} textAlign={"center"}
+        mb={{ base: 2, md: 8 }}
           fontWeight="bold"
-          textAlign="center"
           color="teal.500"
           >Product Categories
-          </Text>
+          </Heading>
       </VStack>
       <VStack spacing={8} align="start">
 

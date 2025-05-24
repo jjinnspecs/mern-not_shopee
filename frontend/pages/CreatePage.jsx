@@ -11,13 +11,15 @@ const CreatePage = () => {
     image: "",
   });
 
-const toast = useToast();
+const Toast = useToast();
 
   const {createProduct} = useProductStore();
 
   const handleAddProduct = async() => {
+    const priceNum = Number(newProduct.price);
+
     if(!newProduct.name || !newProduct.price || !newProduct.category || !newProduct.image) {
-      toast({
+      Toast({
         title: "Error",
         description: "Please fill all the fields",
         status: "error",
@@ -26,10 +28,20 @@ const toast = useToast();
       });
       return;
     }
-    
+      if (isNaN(priceNum) || priceNum <= 0) {
+            Toast({
+                title: "Error",
+                description: "Price must be a number greater than 0.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+
     const { success, message } = await createProduct(newProduct);
     if(!success) {
-      toast({
+      Toast({
         title: "Error",
         description: message,
         status: "error",
@@ -38,7 +50,7 @@ const toast = useToast();
       });
     }
     else {
-      toast({
+      Toast({
         title: "Success",
         description: message,
         status: "success",
@@ -60,18 +72,21 @@ const toast = useToast();
     fetchCategories();
   }, [fetchCategories]);
 
-  return (<Container maxW={"container.sm"}>
-    <VStack spacing={8}>
+  return (<Container maxW={"container.sm"} p={12}>
+    <VStack spacing={8} align="stretch">
 
-      <Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8}>
+      <Heading as={"h1"} size={{ base:"lg", md: "xl"}} textAlign={"center"}
+        mb={{ base: 2, md: 8 }}>
         Add new product
       </Heading>
       <Box
-        w={"xl"}
+        w="full"
+        maxW={{ base: "100%", md: "lg%" }}
         bg={useColorModeValue("white", "gray.700")}
-        p={6}
+        p={{ base: 4, md: 6 }}
         rounded={"lg"}
         shadow={"md"}
+        mx="auto"
       >
       <VStack spacing={6}>
         <Input
@@ -116,6 +131,7 @@ const toast = useToast();
             color="black"
             width={"full"}
             onClick={handleAddProduct}
+            size={{ base: "md", md: "lg" }}
           > Add Product
             </Button>
       </VStack>

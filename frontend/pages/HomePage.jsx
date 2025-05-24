@@ -1,4 +1,4 @@
-import { Container, SimpleGrid, Text, VStack, HStack, Flex, Input, Select, Button } from "@chakra-ui/react";
+import { Container, SimpleGrid, Text, VStack, HStack, Flex, Input, Select, Button, Heading } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useProductStore } from "../src/store/product";
@@ -43,13 +43,13 @@ const HomePage = () => {
   return (
     <Container maxW={"container.xl"} p={12}>
       <VStack spacing={8} align="stretch">
-        <Text
-          fontSize="3xl"
+        <Heading as={"h1"} size={{ base:"lg", md: "xl"}}
           fontWeight="bold"
           textAlign="center"
           color="teal.500"
+          mb={{ base: 2, md: 8 }}
           >Current Products
-          </Text>
+          </Heading>
 
         {/* <HStack spacing={2} mb={4} gap={2} justifyContent="center">
           <Input
