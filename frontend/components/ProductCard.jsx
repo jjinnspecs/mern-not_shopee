@@ -79,7 +79,7 @@ const ProductCard = ({ product }) => {
 
     const handleUpdateProduct = async (pid, updatedProduct) => {
         const priceNum = Number(updatedProduct.price);
-        if (!updatedProduct.name || !updatedProduct.price || !updatedProduct.image) {
+        if (!updatedProduct.name || !updatedProduct.price || !updatedProduct.category || !updatedProduct.image) {
             Toast({
                 title: "Error",
                 description: "Please fill in all fields.",

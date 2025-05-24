@@ -7,6 +7,7 @@ const CreatePage = () => {
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: "",
+    category: "",
     image: "",
   });
 
@@ -15,6 +16,17 @@ const toast = useToast();
   const {createProduct} = useProductStore();
 
   const handleAddProduct = async() => {
+    if(!newProduct.name || !newProduct.price || !newProduct.category || !newProduct.image) {
+      toast({
+        title: "Error",
+        description: "Please fill all the fields",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    
     const { success, message } = await createProduct(newProduct);
     if(!success) {
       toast({
