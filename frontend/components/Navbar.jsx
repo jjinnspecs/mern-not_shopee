@@ -21,8 +21,10 @@ const Navbar = () => {
         alignItems={'center'}
         justifyContent={'space-between'}
         flexDirection={{ base: 'column', md: 'row' }}
+        py={{ base: 2, md: 0 }}
+        gap={{ base: 2, md: 0 }}
       >
-      <Flex alignItems="center" gap={4}>
+      <Flex alignItems="center" gap={4} w="full" justify={{ base: "center", md: "flex-start"}}>
         <Menu isLazy>
           <MenuButton
           as={IconButton}
@@ -46,19 +48,20 @@ const Navbar = () => {
           fontWeight={'bold'}
           textAlign={{ base: 'center', md: 'left' }}
           textTransform="uppercase"
+          mx={{ base: "auto", md: 0 }}
         >
           <Link to={"/"}>Not Shopee</Link>
         </Text>
         </Flex>
 
-        <HStack spacing={2} alignItems={"center"}>
+        <HStack spacing={2} alignItems={"center"} justifyContent={"center"} mt={{ base: 2, md: 0}}>                                                   
             <Link to={"/create"}>
-            <Button>
+            <Button size={{ base: "sm", md: "md"}}>
                 <CgAdd size={20} />
-                <Text ml={2}>Add Product</Text>
+                <Text ml={2} display={{ base: "none", sm: "inline"}}>Add Product</Text>
             </Button>
             </Link>
-            <Button onClick={toggleColorMode}>
+            <Button onClick={toggleColorMode} size={{ base: "sm", md: "md"}}>
            {colorMode === 'dark' ? <LuMoon /> : <LuSun />}
             </Button>
             
