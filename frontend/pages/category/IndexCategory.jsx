@@ -28,6 +28,7 @@ import { Container, Text, VStack, Input, Button,
     AlertDialogCloseButton,
     useColorModeValue,
     Heading,
+    Flex,
 
  } from "@chakra-ui/react";
 
@@ -147,6 +148,17 @@ const IndexCategory = () => {
             onClose: onAddClose 
         } = useDisclosure();
 
+    //pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
+
+    const totalPages = Math.ceil(categories.length / itemsPerPage);
+    const paginatedCategories = categories.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
+
   return (
     <Container maxW={"container.xl"} p={12}>
       <VStack spacing={8} align="stretch">
@@ -159,7 +171,7 @@ const IndexCategory = () => {
       </VStack>
       <VStack spacing={8} align="start">
 
-            <Button onClick={onAddOpen} colorScheme="teal" size="lg">
+            <Button onClick={onAddOpen} colorScheme="teal" size={{ base: "md", md: "lg"}}>
                 <CgAdd size={20} />
                 <Text ml={2}>Add Category</Text>
             </Button>
@@ -203,7 +215,7 @@ const IndexCategory = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {categories.map((category, idx) => (
+            {paginatedCategories.map((category, idx) => (
                 <Tr key={category._id}>
                     <Td>{idx + 1}</Td>
                     <Td>{category.name}</Td>
@@ -232,8 +244,46 @@ const IndexCategory = () => {
                     </Td>
                 </Tr>
             ))}
+                  {/* Add empty rows if less than itemsPerPage */}
+      {Array.from({ length: itemsPerPage - paginatedCategories.length }).map((_, i) => (
+        <Tr key={`empty-${i}`}>
+          <Td colSpan={3} height="73px" bg="transparent"></Td>
+        </Tr>
+      ))}
           </Tbody>
         </Table>
+         {/* Pagination Controls */}
+                      <Text mt={4} textAlign="center" color="gray.600">
+                        Page {currentPage} of {totalPages}
+                      </Text>
+                      <Flex justify="center" mt={6} gap={2}>
+                        <Button
+                          size="sm"
+                          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                          isDisabled={currentPage === 1}
+                          >
+                            Prev
+                        </Button>
+                        {Array.from({ length: totalPages }, (_, index) => (
+                          <Button
+                            key={index + 1}
+                            size="sm"
+                            variant={currentPage === index + 1 ? "solid" : "outline"}
+                            colorScheme="teal"
+                            onClick={() => setCurrentPage(index + 1)}>
+                              {index + 1}
+                            </Button>
+                        ))}
+                        <Button
+                          size="sm"
+                          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                          isDisabled={currentPage === totalPages || totalPages === 0}
+                        >
+                          Next
+                        </Button>
+          
+                      </Flex>
+
                     <AlertDialog
                         isOpen={isDeleteOpen}
                         leastDestructiveRef={cancelRef}
