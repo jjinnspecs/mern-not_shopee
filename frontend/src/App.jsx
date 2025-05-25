@@ -9,6 +9,9 @@ import Navbar from "../components/Navbar";
 import IndexCategory from "../pages/category/IndexCategory";
 import AddCategory from "../pages/category/AddCategory";
 
+//user
+import UserLoginPage from "../pages/user/UserLoginPage";
+
 function App() {
 
   return (
@@ -21,6 +24,7 @@ function App() {
         {/* Category pages routes */}
         <Route path="/category" element={<IndexCategory />} />
         <Route path="/category/add" element={<AddCategory />} />
+        <Route path="/user/login" element={<UserLoginPage />} />
       </Routes>
     </Box>
   )

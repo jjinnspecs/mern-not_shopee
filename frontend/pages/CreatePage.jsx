@@ -81,7 +81,7 @@ const Toast = useToast();
       </Heading>
       <Box
         w="full"
-        maxW={{ base: "100%", md: "lg%" }}
+        maxW={{ base: "100%", md: "lg" }}
         bg={useColorModeValue("white", "gray.700")}
         p={{ base: 4, md: 6 }}
         rounded={"lg"}

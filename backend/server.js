@@ -6,6 +6,8 @@ import { connectDB } from "./config/db.js";
 
 import productRoutes from "./routes/product.route.js";
 import categoryRoutes from "./routes/category.route.js";
+import authRoutes from "./routes/auth.route.js";
+
 
 
 dotenv.config();
@@ -19,6 +21,7 @@ app.use(express.json()); // Middleware to parse JSON data
 
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/auth", authRoutes);
 
 if(process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")));

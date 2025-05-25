@@ -148,10 +148,10 @@ const HomePage = () => {
                     </SimpleGrid>
 
             {/* Pagination Controls */}
-            <Text mt={4} textAlign="center" color="gray.600">
+            <Text textAlign="center" color="gray.600">
               Page {currentPage} of {totalPages}
             </Text>
-            <Flex justify="center" mt={6} gap={2}>
+            <Flex justify="center" gap={2}>
               <Button
                 size="sm"
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}

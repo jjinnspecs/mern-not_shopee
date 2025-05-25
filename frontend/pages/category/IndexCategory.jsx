@@ -209,9 +209,9 @@ const IndexCategory = () => {
           {/* <TableCaption>Product Categories</TableCaption> */}
           <Thead>
             <Tr>
-              <Th w={4}>#</Th>
-              <Th>Category Name</Th>
-              <Th>Actions</Th>
+              <Th w={4}><Heading size={{ base: "sm", md: "md"}}>#</Heading></Th>
+              <Th><Heading size={{base: "xs", md: "sm"}}>Category Name</Heading></Th>
+              <Th><Heading size={{base: "xs", md: "sm"}}>Actions</Heading></Th>
             </Tr>
           </Thead>
           <Tbody>

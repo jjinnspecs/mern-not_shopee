@@ -11,7 +11,13 @@ import { Link } from "react-router-dom";
 import { CgAdd } from "react-icons/cg";
 import { LuMoon, LuSun } from 'react-icons/lu';
 
+import { useAuthStore } from "../src/store/auth.js";
+
 const Navbar = () => {
+    const logout = useAuthStore((state) => state.logout);
+    const token = useAuthStore((state) => state.token);
+    const user = useAuthStore((state) => state.user);
+
     const { colorMode, toggleColorMode,} = useColorMode();
   return (
     <Container maxW="container.xl" px={4}>
@@ -64,7 +70,22 @@ const Navbar = () => {
             <Button onClick={toggleColorMode} size={{ base: "sm", md: "md"}}>
            {colorMode === 'dark' ? <LuMoon /> : <LuSun />}
             </Button>
-            
+        {token ? (
+          <>
+          {user?.email && (
+            <Text color="teal.500" fontWeight="bold" fontSize="md" px={2}>
+              {user.email}
+            </Text>
+          )}
+            <Button onClick={logout} size={{ base: "sm", md: "md"}} colorScheme="red">
+              <Text display={{ base: "none", sm: "inline"}}>Logout</Text>
+            </Button>
+            </>
+        ) : (
+          <Link to="/user/login">
+            <Button colorScheme="teal">Login</Button>
+          </Link>
+        )}
         </HStack>
       </Flex>
 
