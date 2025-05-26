@@ -61,13 +61,13 @@ const UserRequestOtp = ({ onOtpRequested }) => {
         placeholder="Enter your email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        size={"lg"}
+        size={"md"}
         required
       />
         <Button
             type="submit"
             bg="teal.200"
-            size={{ base: "md", md: "lg"}}
+            size={{ base: "md", md: "md"}}
             color="black"
         >
             <Text p={4}>Request OTP</Text>

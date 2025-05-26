@@ -31,6 +31,8 @@ import { useRef, useEffect } from 'react';
 import { useProductStore } from '../src/store/product';
 import { useState } from 'react';
 import { useCategoryStore } from '../src/store/category';
+import { useCartStore } from '../src/store/cart';
+import { useAuthStore } from '../src/store/auth';
 
 const ProductCard = ({ product }) => {
 
@@ -133,6 +135,43 @@ const ProductCard = ({ product }) => {
     const categoryName = category ? category.name : 'Unknown Category';
 
 
+    const { addToCart } = useCartStore();
+    const { user, token } = useAuthStore();
+
+    const handleAddToCart = async () => {
+        if (!token || !user?.email) {
+            Toast({
+                title: "Login required",
+                description: "Please log in to add items to your cart.",
+                status: "warning",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+
+    const userId = user?._id;
+    const res = await addToCart({ userId, productId: product._id, quantity: 1 });
+    if (!res.success) {
+        Toast({
+            title: "Error",
+            description: res.message || "Failed to add to cart.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+        });
+    } else {
+         Toast({
+            title: "Added to cart",
+            description: "Product has been added to your cart.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+        });
+    }
+};
+
+
     return (
         <Box
             shadow='lg'
@@ -156,7 +195,7 @@ const ProductCard = ({ product }) => {
                 </Heading>
 
                 <Text fontSize='lg' color='gray.500'>
-                    $ {product.price}
+                    ₱ {product.price}
                 </Text>
 
                 <Text fontSize='md' color='gray.500' mb={4}>
@@ -172,6 +211,10 @@ const ProductCard = ({ product }) => {
                         colorScheme='red'
                         onClick={onDeleteOpen}
                     />
+
+                    <Button colorScheme="teal" onClick={handleAddToCart}>
+                        Add to Cart
+                    </Button>
                 </HStack>
             </Box>
 

@@ -59,13 +59,13 @@ const UserVerifyOtp = ({ email }) => {
         placeholder="Enter OTP"
         value={otp}
         onChange={e => setOtp(e.target.value)}
-        size={"lg"}
+        size={"md"}
         required
       />
         <Button
             type="submit"
             bg="teal.200"
-            size={{ base: "md", md: "lg"}}
+            size={{ base: "md", md: "md"}}
             color="black"
         >
             <Text p={4}>Verify OTP</Text>

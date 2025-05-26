@@ -51,30 +51,6 @@ const HomePage = () => {
           >Current Products
           </Heading>
 
-        {/* <HStack spacing={2} mb={4} gap={2} justifyContent="center">
-          <Input
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            maxW="200px"
-            mx="auto"
-            borderColor="teal.500"
-          />
-          <Select
-            placeholder="All"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            maxW="200px"
-            mx="auto"
-            borderColor="teal.500"
-            >
-              {categories.map((category) => (
-                <option key={category._id} value={category._id}>
-                {category.name}
-                </option>
-              ))}
-          </Select>
-        </HStack> */}
          <Flex alignItems="center" gap={4} mb={4} justifyContent="center">
                  <Input
             placeholder="Search products..."

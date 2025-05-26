@@ -1,8 +1,19 @@
 import { create } from 'zustand';
 
+function getStoredUser() {
+    const userStr = localStorage.getItem('user');
+    if (!userStr || userStr === "undefined") return null;
+    try {
+        return JSON.parse(userStr);
+    } catch {
+        return null;
+    }
+}
+
 export const useAuthStore = create((set) => ({
     token: localStorage.getItem('token') || null,
-    user: localStorage.getItem('userEmail') ? { email: localStorage.getItem('userEmail') } : null,
+    // user: localStorage.getItem('userEmail') ? { email: localStorage.getItem('userEmail') } : null,
+    user: getStoredUser(),
 
     setToken: (token) => {
         localStorage.setItem('token', token);
@@ -11,7 +22,7 @@ export const useAuthStore = create((set) => ({
 
     logout: () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('userEmail');
+        localStorage.removeItem('user');
         set({ token: null, user: null });
     },
 
@@ -24,8 +35,14 @@ export const useAuthStore = create((set) => ({
         const data = await res.json();
         if (data.success) {
             localStorage.setItem('token', data.token);
+
+            if (data.user) {
+                localStorage.setItem('user', JSON.stringify(data.user));
+                set({ token: data.token, user: data.user });
+            } else {
             set({ token: data.token });
         }
+    }
         return data;
     },
 
@@ -47,8 +64,8 @@ export const useAuthStore = create((set) => ({
         const data = await res.json();
         if (data.success) {
             localStorage.setItem('token', data.token);
-            localStorage.setItem('userEmail', email)
-            set({ token: data.token, user: { email }});
+            localStorage.setItem('user', JSON.stringify(data.user));
+            set({ token: data.token, user: data.user });
         }
         return data;
         

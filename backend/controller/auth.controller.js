@@ -125,7 +125,9 @@ export const verifyOTP = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '1d' }
         );
-        res.json({ success: true, token });
+
+        const { _id, email: userEmail, role } = user;
+        res.json({ success: true, token, user: { _id, email: userEmail, role} });
     } catch (error) {
         console.error('Error during OTP verification:', error);
         res.status(500).json({ message: 'Server error. Please try again later.' });

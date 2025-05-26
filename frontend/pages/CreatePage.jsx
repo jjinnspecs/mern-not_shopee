@@ -72,7 +72,8 @@ const Toast = useToast();
     fetchCategories();
   }, [fetchCategories]);
 
-  return (<Container maxW={"container.sm"} p={12}>
+  return (
+  <Container maxW={"container.sm"} p={12}>
     <VStack spacing={8} align="stretch">
 
       <Heading as={"h1"} size={{ base:"lg", md: "xl"}} textAlign={"center"}

@@ -34,7 +34,7 @@ import { Container, Text, VStack, Input, Button,
 
 import React, { useEffect, useRef, useState } from "react";
 
-import { useCategoryStore } from "../../src/store/category";
+import { useCategoryStore } from "../../../src/store/category";
 
 import { CgAdd } from "react-icons/cg";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -217,7 +217,7 @@ const IndexCategory = () => {
           <Tbody>
             {paginatedCategories.map((category, idx) => (
                 <Tr key={category._id}>
-                    <Td>{idx + 1}</Td>
+                    <Td>{(currentPage - 1) * itemsPerPage + idx + 1}</Td>
                     <Td>{category.name}</Td>
                     <Td>
                         <ButtonGroup spacing={2}>
