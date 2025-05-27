@@ -53,15 +53,30 @@ const IndexCategory = () => {
 
     const [deleteCategoryId, setDeleteCategoryId] = React.useState(null);
 
-    const toast = useToast();
+    const Toast = useToast();
     const cancelRef = useRef();
 
     const { fetchCategories, createCategory, updateCategory, deleteCategory, categories} = useCategoryStore();
 
     const handleAddCategory = async() => {
+        //check for duplicate category
+        const exists = categories.some(
+            (category) => category.name.trim().toLowerCase() === newCategory.name.trim().toLowerCase()
+        );
+        if (exists) {
+            Toast({
+                title: "Error",
+                description: "Category already exists",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+            return
+        }
+
         const { success, message } = await createCategory(newCategory);
         if(!success) {
-            toast({
+            Toast({
                 title: "Error",
                 description: message,
                 status: "error",
@@ -70,7 +85,7 @@ const IndexCategory = () => {
             });
         }
         else {
-            toast({
+            Toast({
                 title: "Success",
                 description: message,
                 status: "success",
@@ -85,7 +100,7 @@ const IndexCategory = () => {
         const handleDeleteCategory = async (cid) => {
             const { success, message } = await deleteCategory(cid);
             if (!success) {
-                toast({
+                Toast({
                     title: "Error",
                     description: message,
                     status: "error",
@@ -94,7 +109,7 @@ const IndexCategory = () => {
                 });
             }
             else {
-                toast({
+                Toast({
                     title: "Success",
                     description: message,
                     status: "success",
@@ -105,9 +120,26 @@ const IndexCategory = () => {
             onDeleteClose();
         };
         const handleUpdateCategory = async (cid, updatedCategory) => {
+            //check for duplicate category
+            const exists = categories.some(
+                (category) =>
+                    category._id !== cid &&
+                    category.name.trim().toLowerCase() === updatedCategory.name.trim().toLowerCase()
+);
+            if (exists) {
+                Toast({
+                    title: "Error",
+                    description: "Category already exists",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                return;
+            }
+            
             const { success, message } = await updateCategory(cid, updatedCategory);
             if (!success) {
-                toast({
+                Toast({
                     title: "Error",
                     description: message,
                     status: "error",
@@ -116,7 +148,7 @@ const IndexCategory = () => {
                 });
             }
             else {
-                toast({
+                Toast({
                     title: "Success",
                     description: message,
                     status: "success",

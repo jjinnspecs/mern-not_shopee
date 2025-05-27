@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 //Pages
 import HomePage from "../pages/HomePage";
-import CreatePage from "../pages/CreatePage";
+import CreatePage from "../pages/admin/product/CreatePage";
 import Navbar from "../components/Navbar";
 //Category pages
 import IndexCategory from "../pages/admin/category/IndexCategory";
@@ -23,11 +23,11 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/create" element={<CreatePage />} />
+        <Route path="/admin/create" element={<CreatePage />} />
 
         {/* Category pages routes */}
-        <Route path="/category" element={<IndexCategory />} />
-        <Route path="/category/add" element={<AddCategory />} />
+        <Route path="/admin/category" element={<IndexCategory />} />
+        <Route path="/admin/category/add" element={<AddCategory />} />
         <Route path="/user/login" element={<UserLoginPage />} />
 
         {/* admin routes */}

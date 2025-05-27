@@ -50,7 +50,8 @@ const UserRequestOtp = ({ onOtpRequested }) => {
     <Container maxW={"container.sm"}>
     <VStack spacing={8} align="stretch">
               <Heading as={"h1"} size={{ base:"lg", md: "xl"}} textAlign={"center"}
-        mb={{ base: 2, md: 8 }}>
+        mb={{ base: 2, md: 8 }}
+        color="teal.500">
         User Login
       </Heading>
     <VStack spacing={6}>

@@ -1,7 +1,7 @@
 import { Container, Heading, Box, Input, Button, VStack, useToast, useColorModeValue, Select } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { useProductStore } from "../src/store/product.js";
-import { useCategoryStore } from "../src/store/category.js";
+import { useProductStore } from "../../../src/store/product.js";
+import { useCategoryStore } from "../../../src/store/category.js";
 
 const CreatePage = () => {
   const [newProduct, setNewProduct] = useState({
@@ -77,7 +77,9 @@ const Toast = useToast();
     <VStack spacing={8} align="stretch">
 
       <Heading as={"h1"} size={{ base:"lg", md: "xl"}} textAlign={"center"}
-        mb={{ base: 2, md: 8 }}>
+        mb={{ base: 2, md: 8 }}
+        color="teal.500"
+        >
         Add new product
       </Heading>
       <Box

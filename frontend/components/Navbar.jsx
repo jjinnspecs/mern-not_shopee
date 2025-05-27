@@ -40,7 +40,7 @@ const Navbar = () => {
           variant='outline'
           />
           <MenuList>
-            <Link to={"/category"}>
+            <Link to={"/admin/category"}>
             <MenuItem>
               <Text fontSize="lg">Category</Text>
             </MenuItem>
@@ -62,7 +62,7 @@ const Navbar = () => {
         </Flex>
 
         <HStack spacing={2} alignItems={"center"} justifyContent={"center"} mt={{ base: 2, md: 0}}>                                                   
-            <Link to={"/create"}>
+            <Link to={"/admin/create"}>
             <Button size={{ base: "sm", md: "md"}}>
                 <CgAdd size={20} />
                 <Text ml={2} display={{ base: "none", sm: "inline"}}>Add Product</Text>

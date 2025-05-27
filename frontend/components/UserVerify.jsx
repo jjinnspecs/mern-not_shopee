@@ -48,8 +48,10 @@ const UserVerifyOtp = ({ email }) => {
    <Container maxW={"container.sm"}>
     <VStack spacing={8} align="stretch">
               <Heading as={"h1"} size={{ base:"lg", md: "xl"}} textAlign={"center"}
-        mb={{ base: 2, md: 8 }}>
-        User Login
+        mb={{ base: 2, md: 8 }}
+        color="teal.500"
+        >
+        User Verification
       </Heading>
     <VStack spacing={6}>
             <form onSubmit={handleVerify} style={{ width:"100%"}}>

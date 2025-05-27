@@ -18,6 +18,12 @@ export const createCategory = async (req, res) => {
         return res.status(400).json({ message: 'Please fill the category name field' });
     }
 
+    // Check if category already exists
+    const existingCategory = await Category.findOne({ name: { $regex: `^${category.name}$`, $options: "i"} });
+    if (existingCategory) {
+        return res.status(400).json({ success: false, message: 'Category already exists' });
+    }
+
     const newCategory = new Category(category)
 
     try {
@@ -36,6 +42,15 @@ export const updateCategory = async (req, res) => {
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({success:false, message: 'Invalid category ID'});
+    }
+
+    // Check if category already exists
+    const existingCategory = await Category.fineOne({
+        _id: { $ne: id },
+        name: { $regex: `^${category.name}$`, $options: "i" }
+    });
+    if (existingCategory) {
+        return res.status(400).json({ success: false, message: 'Category already exists' });
     }
 
     try {
