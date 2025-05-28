@@ -1,5 +1,5 @@
 **Not Shopee**
-- A simple e-commerce web app built with the MERN stack (MongoDB, Express, React, Node.js) and Chakra UI.
+- An e-commerce web app built with the MERN stack (MongoDB, Express, React, Node.js) and Chakra UI.
 
 **Features**
 Finished features:
