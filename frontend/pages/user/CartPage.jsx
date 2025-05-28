@@ -102,7 +102,7 @@ const CartPage = () => {
                     <Image src={item.product.image} alt={item.product.name} boxSize="100px" objectFit="cover" />
                   </Td>
                   <Td>{item.product.name}</Td>
-                  <Td>₱ {Number(item.product.price).toFixed(2)}</Td>
+                  <Td>₱ {Number(item.product.price).toLocaleString("en-PH", { minimumFractionDigits: 2 })}</Td>
                   <Td>
                     <Flex align="center">
                       <IconButton
@@ -184,7 +184,7 @@ const CartPage = () => {
                     </Flex>
                   </Td>
                  <Td>
-                  ₱ {(item.product.price * (quantities[item.product._id] || item.quantity)).toFixed(2)}
+                  ₱ {(item.product.price * (quantities[item.product._id] || item.quantity)).toLocaleString("en-PH", { minimumFractionDigits: 2 })}
                 </Td>
                   <Td>
                     <IconButton
@@ -228,8 +228,19 @@ const CartPage = () => {
         </Table>
         <Box textAlign="right" mt={4}>
           <Text fontWeight="bold" fontSize="xl">
-            Grand Total: ₱ {grandTotal.toFixed(2)}
+            Grand Total: ₱ {grandTotal.toLocaleString("en-PH", { minimumFractionDigits: 2 })
+            .replace(/,/g, ", ")}
           </Text>
+          {cart && cart.items && cart.items.length > 0 && (
+            <Button
+              colorScheme="orange"
+              size="lg"
+              mt={4}
+              onClick={() => navigate("/checkout")}
+            >
+              Proceed to Checkout
+            </Button>
+          )}
         </Box>
       </TableContainer>
     </Container>

@@ -195,7 +195,9 @@ const ProductCard = ({ product }) => {
                 </Heading>
 
                 <Text fontSize='lg' color='gray.500'>
-                    ₱ {product.price}
+                       ₱{" "}
+                        {Number(product.price)
+                            .toLocaleString("en-PH", { minimumFractionDigits: 2 })}
                 </Text>
 
                 <Text fontSize='md' color='gray.500' mb={4}>

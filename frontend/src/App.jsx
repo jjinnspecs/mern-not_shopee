@@ -12,6 +12,9 @@ import AddCategory from "../pages/admin/category/AddCategory";
 //user
 import UserLoginPage from "../pages/user/UserLoginPage";
 import CartPage from "../pages/user/CartPage";
+import CheckoutPage from "../pages/user/CheckoutPage";
+import SuccessPage from "../pages/user/SuccessPage";
+import ErrorPage from "../pages/user/ErrorPage";
 
 //admin
 import IndexProducts from "../pages/admin/product/IndexProducts";
@@ -36,6 +39,9 @@ function App() {
 
         {/* user routes */}
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/error" element={<ErrorPage />} />
       </Routes>
     </Box>
   )
