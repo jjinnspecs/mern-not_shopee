@@ -56,8 +56,8 @@ export const createPaymongoCheckout = async (req, res) => {
                         currency: "PHP",
                         type,
                         redirect: {
-                            success: "http://localhost:5173/success",
-                            failed: "http://localhost:5173/error",
+                            success: "https://mern-not-shopee.onrender.com/success",
+                            failed: "https://mern-not-shopee.onrender.com/error",
                         },
                         metadata: {
                             email,
