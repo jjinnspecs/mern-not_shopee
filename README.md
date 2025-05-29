@@ -8,7 +8,30 @@ Finished features:
 - Category management (CRUD)
 - Shopping cart with real-time updates
 - Responsive UI with Chakra UI
+- Checkout process(PayMongo Test Payment)
 
 Not yet finished:
 - Admin login
-- Checkout process (multi-step, with validation)
+  
+- Order History & Tracking
+* Allow users to view their past orders and order statuses.
+*Admins can update order statuses (e.g., Processing, Shipped, 
+Delivered, Cancelled).
+
+- Product Reviews & Ratings
+* Users can leave reviews and rate products.
+*Display average ratings and review comments on product pages.
+
+- Wishlist/Favorites
+* Users can add products to a wishlist for future purchase.
+
+- User Profile Management
+* Users can update their profile info, change password, and manage addresses.
+
+- Admin Dashboard
+* Sales analytics (charts for sales, top products, etc.).
+
+- Inventory Management
+* Track product stock.
+* Show "Out of Stock" labels and prevent purchase if unavailable.
+
