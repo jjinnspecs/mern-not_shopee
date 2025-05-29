@@ -40,9 +40,14 @@ const Navbar = () => {
           variant='outline'
           />
           <MenuList>
+               <Link to={"/admin/products"}>
+            <MenuItem>
+              <Text fontSize="lg">Products</Text>
+            </MenuItem>
+            </Link>
             <Link to={"/admin/category"}>
             <MenuItem>
-              <Text fontSize="lg">Category</Text>
+              <Text fontSize="lg">Categories</Text>
             </MenuItem>
             </Link>
           </MenuList>
@@ -62,12 +67,12 @@ const Navbar = () => {
         </Flex>
 
         <HStack spacing={2} alignItems={"center"} justifyContent={"center"} mt={{ base: 2, md: 0}}>                                                   
-            <Link to={"/admin/create"}>
+            {/* <Link to={"/admin/create"}>
             <Button size={{ base: "sm", md: "md"}}>
                 <CgAdd size={20} />
                 <Text ml={2} display={{ base: "none", sm: "inline"}}>Add Product</Text>
             </Button>
-            </Link>
+            </Link> */}
 
               <Link to="/cart">
               <Button size={{ base: "sm", md: "md"}} colorScheme="orange">

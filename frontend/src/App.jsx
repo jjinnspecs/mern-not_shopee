@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 
 //Pages
 import HomePage from "../pages/HomePage";
-import CreatePage from "../pages/admin/product/CreatePage";
 import Navbar from "../components/Navbar";
 //Category pages
 import IndexCategory from "../pages/admin/category/IndexCategory";
@@ -18,6 +17,7 @@ import ErrorPage from "../pages/user/ErrorPage";
 
 //admin
 import IndexProducts from "../pages/admin/product/IndexProducts";
+import CreatePage from "../pages/admin/product/CreatePage";
 
 function App() {
 
@@ -26,7 +26,6 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/admin/create" element={<CreatePage />} />
 
         {/* Category pages routes */}
         <Route path="/admin/category" element={<IndexCategory />} />
@@ -35,6 +34,7 @@ function App() {
 
         {/* admin routes */}
         <Route path="/admin/products" element={<IndexProducts />} />
+        <Route path="/admin/create" element={<CreatePage />} />
 
 
         {/* user routes */}

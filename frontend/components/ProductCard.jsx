@@ -34,6 +34,8 @@ import { useCategoryStore } from '../src/store/category';
 import { useCartStore } from '../src/store/cart';
 import { useAuthStore } from '../src/store/auth';
 
+import { FaShoppingCart } from "react-icons/fa";
+
 const ProductCard = ({ product }) => {
 
     const { 
@@ -190,7 +192,10 @@ const ProductCard = ({ product }) => {
                 objectFit='cover'
             />
             <Box p={4}>
-                <Heading fontSize='xl' fontWeight='bold'>
+                <Heading fontSize={['sm', 'md', 'xl']}
+                 fontWeight='bold'
+                noOfLines={2}
+                 minH={['2.5em', '2.8em', '3em']}>
                     {product.name}
                 </Heading>
 
@@ -214,9 +219,8 @@ const ProductCard = ({ product }) => {
                         onClick={onDeleteOpen}
                     />
 
-                    <Button colorScheme="teal" onClick={handleAddToCart}>
-                        Add to Cart
-                    </Button>
+                    <Box flex="1" />
+                    <IconButton colorScheme="orange" onClick={handleAddToCart} icon={<FaShoppingCart />}/>
                 </HStack>
             </Box>
 
