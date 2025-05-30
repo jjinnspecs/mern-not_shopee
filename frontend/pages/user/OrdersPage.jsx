@@ -140,7 +140,7 @@ const OrderCard = ({ order, getStatusColor, bgColor, textColor}) => {
                             </Text>
                         </VStack>
 
-                        <VStack align="end" spacing={1}>
+                        <VStack align="start" spacing={1}>
                             <Text fontSize="sm">
                                 Order Date
                             </Text>
