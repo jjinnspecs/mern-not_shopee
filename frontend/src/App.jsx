@@ -14,6 +14,8 @@ import CartPage from "../pages/user/CartPage";
 import CheckoutPage from "../pages/user/CheckoutPage";
 import SuccessPage from "../pages/user/SuccessPage";
 import ErrorPage from "../pages/user/ErrorPage";
+import OrdersPage from "../pages/user/OrdersPage";
+import PaymongoSuccessProxy from "../pages/user/PaymongoSuccessProxy";
 
 //admin
 import IndexProducts from "../pages/admin/product/IndexProducts";
@@ -42,6 +44,8 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/error" element={<ErrorPage />} />
+        <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/paymongo-success" element={<PaymongoSuccessProxy />} />
       </Routes>
     </Box>
   )

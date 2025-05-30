@@ -10,7 +10,7 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { CgAdd } from "react-icons/cg";
 import { LuMoon, LuSun } from 'react-icons/lu';
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaShoppingBag  } from "react-icons/fa";
 
 import { useAuthStore } from "../src/store/auth.js";
 
@@ -77,6 +77,12 @@ const Navbar = () => {
               <Link to="/cart">
               <Button size={{ base: "sm", md: "md"}} colorScheme="orange">
                 <FaShoppingCart />
+              </Button>
+            </Link>
+
+             <Link to="/orders">
+              <Button size={{ base: "sm", md: "md"}} colorScheme="teal">
+                <FaShoppingBag />
               </Button>
             </Link>
 

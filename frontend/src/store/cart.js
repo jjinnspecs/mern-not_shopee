@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 export const  useCartStore = create((set) => ({
     cart: null,
+
     addToCart: async ({ userId, productId, quantity = 1 }) => {
         const res = await fetch("/api/cart/add", {
             method: "POST",
@@ -61,4 +62,15 @@ export const  useCartStore = create((set) => ({
     if (data.success) set({ cart: data.cart });
     return data;
   },
+
+  clearCart: async (userId) => {
+  await fetch("/api/cart/clear", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId }),
+  });
+  set((state) => ({
+    cart: state.cart ? { ...state.cart, items: [] } : null
+  }));
+},
 }));

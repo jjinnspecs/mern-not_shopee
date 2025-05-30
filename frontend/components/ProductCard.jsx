@@ -254,7 +254,7 @@ const ProductCard = ({ product }) => {
             <Modal isOpen={isUpdateOpen} onClose={onUpdateClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Update Product</ModalHeader>
+                    <ModalHeader textAlign="center">Update Product</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack spacing={4}>

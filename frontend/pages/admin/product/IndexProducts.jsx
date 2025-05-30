@@ -245,7 +245,7 @@ const IndexProducts = () => {
             <Modal isOpen={isAddOpen} onClose={onAddClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Add New Product</ModalHeader>
+                    <ModalHeader textAlign="center">Add New Product</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack spacing={4}>

@@ -26,7 +26,7 @@ export const addToCart = async (req, res) => {
     }
 };
 
-//get cart
+// get cart
 export const getCart = async (req, res) => {
     const { userId } = req.params;
     try {
@@ -38,7 +38,7 @@ export const getCart = async (req, res) => {
 };
 
 
-//remove item from cart
+// remove item from cart
 export const removeFromCart = async (req, res) => {
     const { userId, productId } = req.body;
     try {
@@ -53,7 +53,7 @@ export const removeFromCart = async (req, res) => {
     }
 };
 
-//updating quantity
+// updating quantity
 export const updateQuantity = async (req, res) => {
     const { userId, productId, quantity } = req.body;
     try {
@@ -68,5 +68,19 @@ export const updateQuantity = async (req, res) => {
         res.json({ success: true, cart });
     } catch (error) {
         res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
+// clear cart
+export const clearCart = async (req, res) => {
+    try {
+        const { userId } = req.body;
+        const cart = await Cart.findOne({ user: userId });
+        if (!cart) return res.status(404).json({ success: false, message: "Cart not found" });
+        cart.items = [];
+        await cart.save();
+        res.json({ success: true, cart });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Failed to clear cart" });
     }
 };
