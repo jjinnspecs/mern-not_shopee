@@ -210,7 +210,24 @@ const ProductCard = ({ product }) => {
                 </Text>
 
                 <HStack spacing={2}>
-                    <IconButton icon={<EditIcon />} 
+
+                    <Button 
+                        variant="outline" 
+                        colorScheme="gray" 
+                        flex={1}
+                        disabled
+                    >
+                        Details
+                    </Button>
+
+                    <Button alignItems="center" 
+                    colorScheme="orange" 
+                    onClick={handleAddToCart}
+                    leftIcon={<FaShoppingCart />}
+                    >
+                        Add to Cart
+                    </Button>
+                                        {/* <IconButton icon={<EditIcon />} 
                     onClick={onUpdateOpen}
                     colorScheme='blue' />
                     <IconButton
@@ -220,7 +237,7 @@ const ProductCard = ({ product }) => {
                     />
 
                     <Box flex="1" />
-                    <IconButton colorScheme="orange" onClick={handleAddToCart} icon={<FaShoppingCart />}/>
+                    <IconButton colorScheme="orange" onClick={handleAddToCart} icon={<FaShoppingCart />}/> */}
                 </HStack>
             </Box>
 
