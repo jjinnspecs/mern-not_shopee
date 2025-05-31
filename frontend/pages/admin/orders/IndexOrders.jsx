@@ -338,14 +338,13 @@ const IndexOrders = () => {
                                 <Text fontWeight="semibold" mb={2}>
                                     Customer Information
                                 </Text>
-                                <Text fontSize="sm">Email:
+                                <Text fontSize="sm">Email:{" "}
                                     {selectedOrder.user?.email || 'N/A'}
                                 </Text>
-                                 <Text fontSize="sm">Phone:
+                                 <Text fontSize="sm">Phone:{" "}
                                     {selectedOrder.phone}
                                 </Text>
-                                 <Text fontSize="sm">Delivery Address:
-                                    {selectedOrder.deliveryAddress}
+                                 <Text fontSize="sm">Delivery Address:{" "} {selectedOrder.deliveryAddress}
                                 </Text>
                                 </Box>
 
