@@ -9,14 +9,11 @@ Finished features:
 - Shopping cart with real-time updates
 - Responsive UI with Chakra UI
 - Checkout process(PayMongo Test Payment)
+- Order History & Tracking( Allow users to view their past orders and order statuses. || Admins can update order statuses (e.g., Processing, Shipped, 
+Delivered, Cancelled).
 
 Not yet finished:
 - Admin login
-  
-- Order History & Tracking
-* Allow users to view their past orders and order statuses.
-*Admins can update order statuses (e.g., Processing, Shipped, 
-Delivered, Cancelled).
 
 - Product Reviews & Ratings
 * Users can leave reviews and rate products.
