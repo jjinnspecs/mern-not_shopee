@@ -42,12 +42,17 @@ const Navbar = () => {
           <MenuList>
                <Link to={"/admin/products"}>
             <MenuItem>
-              <Text fontSize="lg">Products</Text>
+              <Text fontSize="lg">Products Management</Text>
             </MenuItem>
             </Link>
             <Link to={"/admin/category"}>
             <MenuItem>
-              <Text fontSize="lg">Categories</Text>
+              <Text fontSize="lg">Categories Management</Text>
+            </MenuItem>
+            </Link>
+            <Link to={"/admin/orders"}>
+            <MenuItem>
+              <Text fontSize="lg">Orders Management</Text>
             </MenuItem>
             </Link>
           </MenuList>

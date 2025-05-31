@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export const useOrderStore = create((set) => ({
+export const useOrderStore = create((set, get) => ({
     orders: [],
     loading: false,
     error: null,
@@ -24,4 +24,38 @@ export const useOrderStore = create((set) => ({
     },
 
     clearOrders: () => set({ orders: [], error: null}),
+
+    // fetch all orders
+        fetchAllOrders: async () => {
+        const res = await fetch("/api/orders");
+        const data = await res.json();
+        set({ orders: data.orders });
+        return { success: true, message: "Orders fetched successfully" };
+    },
+
+    // update order status
+        updateOrderStatus: async (orderId, status) => {
+            try {
+            const res = await fetch(`/api/orders/${orderId}/status`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ status }),
+            });
+            const data = await res.json();
+           if (data.success) {
+                // update the order in the local state
+                const updatedOrders = get().orders.map((order) =>
+                    order._id === orderId ? data.order : order
+                );
+                set({ orders: updatedOrders });
+                return { success: true, message: "Order status updated" };
+            } else {
+                return { success: false, message: data.message || "Failed to update order" };
+            }
+        } catch (error) {
+            return { success: false, message: "Error updating order" };
+        }
+    },
 }));

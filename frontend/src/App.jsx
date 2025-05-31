@@ -20,6 +20,7 @@ import PaymongoSuccessProxy from "../pages/user/PaymongoSuccessProxy";
 //admin
 import IndexProducts from "../pages/admin/product/IndexProducts";
 import CreatePage from "../pages/admin/product/CreatePage";
+import IndexOrders from "../pages/admin/orders/IndexOrders";
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
         {/* admin routes */}
         <Route path="/admin/products" element={<IndexProducts />} />
         <Route path="/admin/create" element={<CreatePage />} />
+        <Route path="/admin/orders" element={<IndexOrders />} />
 
 
         {/* user routes */}
