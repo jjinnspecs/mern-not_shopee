@@ -306,7 +306,7 @@ const IndexOrders = () => {
         <Modal isOpen={isViewOpen} onClose={onViewClose}>
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader>Order Details</ModalHeader>
+                <ModalHeader align="center">Order Details</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     {selectedOrder && (
@@ -413,7 +413,7 @@ const IndexOrders = () => {
                 <Modal isOpen={isUpdateOpen} onClose={onUpdateClose}>
                     <ModalOverlay />
                     <ModalContent>
-                        <ModalHeader>Update Order Status</ModalHeader>
+                        <ModalHeader align="center">Update Order Status</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
                             <VStack spacing={4}>
@@ -437,7 +437,7 @@ const IndexOrders = () => {
                                 colorScheme="blue" 
                                 mr={3} 
                                 onClick={() => handleUpdateOrderStatus(editOrderId, updatedStatus)}>
-                                Update Status
+                                Update
                             </Button>
                             <Button onClick={onUpdateClose}>Cancel</Button>
                         </ModalFooter>
