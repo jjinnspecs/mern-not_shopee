@@ -26,6 +26,9 @@ import {
     ModalCloseButton,
     Input,
     Select,
+    useBreakpointValue,
+    UnorderedList,
+    ListItem,
 } from '@chakra-ui/react';
 import { useRef, useEffect } from 'react';
 import { useProductStore } from '../src/store/product';
@@ -49,6 +52,13 @@ const ProductCard = ({ product }) => {
         onOpen: onUpdateOpen, 
         onClose: onUpdateClose 
     } = useDisclosure();
+
+        const { 
+        isOpen: isViewOpen, 
+        onOpen: onViewOpen, 
+        onClose: onViewClose 
+    } = useDisclosure();
+
     const [updatedProduct, setUpdatedProduct] = useState(product);
 
     const textColor = useColorModeValue('gray.600', 'gray.200');
@@ -173,6 +183,8 @@ const ProductCard = ({ product }) => {
     }
 };
 
+const cartButtonLabel = useBreakpointValue({ base: "Add", sm: "Add", md:"Add to Cart" });
+
 
     return (
         <Box
@@ -209,23 +221,30 @@ const ProductCard = ({ product }) => {
                     Category: {categoryName}
                 </Text>
 
-                <HStack spacing={2}>
+                <HStack spacing={2} w="full">
 
                     <Button 
                         variant="outline" 
                         colorScheme="gray" 
-                        flex={1}
-                        disabled
+                        onClick={onViewOpen}
+                        size={{ base: "sm", md: "md" }}
+                        flex="1"
+                        fontSize={{ base: "xs", md: "md" }}
+                        px={{ base: 2, md: 4 }}
                     >
                         Details
                     </Button>
 
-                    <Button alignItems="center" 
+                    <Button
                     colorScheme="orange" 
                     onClick={handleAddToCart}
                     leftIcon={<FaShoppingCart />}
+                    size={{ base: "sm", md: "md" }}
+                    flex="2"
+                    fontSize={{ base: "sm", md: "md" }}
+                    px={{ base: 2, md: 4 }}
                     >
-                        Add to Cart
+                        {cartButtonLabel}
                     </Button>
                                         {/* <IconButton icon={<EditIcon />} 
                     onClick={onUpdateOpen}
@@ -315,6 +334,37 @@ const ProductCard = ({ product }) => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+
+                    {/* View Details Modal */}
+                    <Modal isOpen={isViewOpen} onClose={onViewClose} size="lg" isCentered>
+                      <ModalOverlay />
+                      <ModalContent borderRadius="xl" boxShadow="lg">
+                        <ModalHeader 
+                        textAlign="center"
+                         textTransform="uppercase"
+                          color="teal.200"
+                           fontWeight="bold">{product.name}</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody px={6} py={4}>
+                          <VStack spacing={3} align="start">
+                            <Box>
+                            {/* <Text fontSize="xl" fontWeight="medium" color="gray.500">Product Details:</Text> */}
+                            {/* <Text fontSize="lg" mt={1}>{product.details || "No details available."}</Text> */}
+                            <UnorderedList mt={1} spacing={2}>
+                                {product.details ?
+                                product.details.split("\n")
+                                .map((line, idx) => (
+                                    <ListItem key={idx}>
+                                        <Text fontSize="md">{line.replace(/^•\s*/, '')}</Text>
+                                    </ListItem>
+                                ))
+                            : <Text align="center">No details available.</Text>}
+                            </UnorderedList>
+                            </Box>
+                        </VStack>
+                          </ModalBody>
+                          </ModalContent>
+                          </Modal>
         </Box>
     );
 };

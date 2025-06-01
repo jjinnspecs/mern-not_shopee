@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export const useOrderStore = create((set, get) => ({
+export const useOrderStore = create((set) => ({
     orders: [],
     loading: false,
     error: null,
@@ -46,11 +46,12 @@ export const useOrderStore = create((set, get) => ({
             const data = await res.json();
            if (data.success) {
                 // update the order in the local state
-                const updatedOrders = get().orders.map((order) =>
+               set((state) => ({
+                orders: state.orders.map((order) =>
                     order._id === orderId ? data.order : order
-                );
-                set({ orders: updatedOrders });
-                return { success: true, message: "Order status updated" };
+                ),
+            }));
+            return { success: true, message: "Order status updated" };
             } else {
                 return { success: false, message: data.message || "Failed to update order" };
             }

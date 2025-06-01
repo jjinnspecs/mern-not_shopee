@@ -16,8 +16,10 @@ import {
    Center,
    useColorModeValue,
    Icon,
+   Flex,
+   Button,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "../../src/store/auth";
 import { useOrderStore } from "../../src/store/order";
 import { formatDate } from "../../src/utils/dateUtils";
@@ -50,6 +52,23 @@ const OrdersPage = () => {
 
     const bgColor = useColorModeValue('white', 'gray.800');
     const textColor = useColorModeValue('gray.600', 'gray.200');
+    const orderBgColor = useColorModeValue('gray.100', 'gray.700');
+
+               //pagination
+          const [currentPage, setCurrentPage] = useState(1);
+          const itemsPerPage = 4;
+      
+          const totalPages = Math.ceil((orders?.length || 0) / itemsPerPage);
+    
+        // sort orders from newest to oldest
+        const sortedOrders = [...orders].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+    
+            const paginatedOrders = sortedOrders.slice(
+                (currentPage - 1) * itemsPerPage,
+                currentPage * itemsPerPage
+            );
     
     if (loading) {
         return (
@@ -73,12 +92,16 @@ const OrdersPage = () => {
         );
     }
 
+
     return (
-        <Container maxW="container.xl" py={8} role="main">
-            <VStack spacing={6} align="stretch">
-                <Heading size="lg" color="teal.500" align="center">
-                    My Orders
-                </Heading>
+        <Container maxW="container.xl" p={12}>
+            <VStack spacing={8} align="stretch">
+        <Heading as="h1" size={{ base: "lg", md: "xl" }} 
+        textAlign="center" mb={{ base: 2, md: 8 }}
+        color="teal.500"
+        >
+          My Orders
+        </Heading>
 
                 {orders.length === 0 ? (
                     <Center py={12} flexDirection="column" textColor={textColor} bg={bgColor}>
@@ -92,15 +115,46 @@ const OrdersPage = () => {
                     </Center>
         ): (
                     <VStack spacing={4} align="stretch">
-                        {orders.map((order) => (
+                        {paginatedOrders.map((order) => (
                             <OrderCard key={order._id} order={order}
                             getStatusColor={getStatusColor}
-                            bg={bgColor}
+                            bgColor={orderBgColor}
                             textColor={textColor}
                             />
                         ))}
                     </VStack>
                 )}
+        {/* Pagination Controls */}
+        <Text mt={4} textAlign="center" color="gray.600">
+          Page {currentPage} of {totalPages}
+        </Text>
+        <Flex justify="center" mt={6} gap={2}>
+          <Button
+            size="sm"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            isDisabled={currentPage === 1}
+          >
+            Prev
+          </Button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <Button
+              key={index + 1}
+              size="sm"
+              variant={currentPage === index + 1 ? "solid" : "outline"}
+              colorScheme="teal"
+              onClick={() => setCurrentPage(index + 1)}>
+              {index + 1}
+            </Button>
+          ))}
+          <Button
+            size="sm"
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            isDisabled={currentPage === totalPages || totalPages === 0}
+          >
+            Next
+          </Button>
+        </Flex>
+                
             </VStack>
         </Container>
     );
@@ -167,7 +221,7 @@ const OrderCard = ({ order, getStatusColor, bgColor, textColor}) => {
                         </Text>
 
                         {order.items.map((item, index) => (
-                            <HStack key={index} spacing={4} p={3}
+                            <HStack key={item._id || index} spacing={4} p={3}
                             borderRadius="md" bg={useColorModeValue('gray.100', 'gray.800')}>
                                 <Image
                                 src={item.product?.image || "placeholder-image.jpg"}

@@ -20,6 +20,10 @@ const orderSchema = new mongoose.Schema({
     enum: ["cod", "gcash", "grab_pay"],
     required: true
   },
+  customerName: {
+    type: String,
+    required: true
+  },
   deliveryAddress: {
     type: String,
     required: true

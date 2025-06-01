@@ -37,7 +37,9 @@ export const updateOrderStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
     const { status } = req.body;
-    const order = await Order.findByIdAndUpdate(orderId, { status }, { new: true });
+    const order = await Order.findByIdAndUpdate(orderId, { status }, { new: true })
+    .populate("user")
+    .populate("items.product");
     res.json({ success: true, order });
   } catch (error) {
     res.status(500).json({ success: false, message: "Failed to update order status" });

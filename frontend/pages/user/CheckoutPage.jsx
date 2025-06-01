@@ -17,6 +17,7 @@ const CheckoutPage = () => {
     const [step, setStep] = useState(1);
     const [form, setForm] = useState({
         email: user?.email || "",
+        customerName: "",
         phone: "",
         deliveryAddress: "",
         billingAddress: "",
@@ -47,6 +48,7 @@ const CheckoutPage = () => {
     const handleNext = () => {
         if (
             !form.email ||
+            !form.customerName ||
             !form.phone ||
             !form.deliveryAddress ||
             (!form.sameAsDelivery && !form.billingAddress)
@@ -66,6 +68,7 @@ const CheckoutPage = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     userId: user._id,
+                    customerName: form.customerName,
                     phone: form.phone,
                     deliveryAddress: form.deliveryAddress,
                     billingAddress: form.sameAsDelivery ? form.deliveryAddress : form.billingAddress,
@@ -103,6 +106,13 @@ const CheckoutPage = () => {
                             value={form.email}
                             onChange={handleChange} 
                            />
+                        </FormControl>
+                          <FormControl isRequired>
+                            <FormLabel>Customer Name</FormLabel>
+                            <Input name="customerName" 
+                            value={form.customerName}
+                            onChange={handleChange}
+                            />
                         </FormControl>
                         <FormControl isRequired>
                             <FormLabel>Phone Number</FormLabel>

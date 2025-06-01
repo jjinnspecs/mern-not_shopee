@@ -1,4 +1,4 @@
-import { Container, Heading, Box, Input, Button, VStack, useToast, useColorModeValue, Select } from "@chakra-ui/react";
+import { Container, Heading, Box, Input, Button, VStack, useToast, useColorModeValue, Select, Textarea } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useProductStore } from "../../../src/store/product.js";
 import { useCategoryStore } from "../../../src/store/category.js";
@@ -6,6 +6,7 @@ import { useCategoryStore } from "../../../src/store/category.js";
 const CreatePage = () => {
   const [newProduct, setNewProduct] = useState({
     name: "",
+    details: "",
     price: "",
     category: "",
     image: "",
@@ -18,7 +19,7 @@ const Toast = useToast();
   const handleAddProduct = async() => {
     const priceNum = Number(newProduct.price);
 
-    if(!newProduct.name || !newProduct.price || !newProduct.category || !newProduct.image) {
+    if(!newProduct.name || !newProduct.details || !newProduct.price || !newProduct.category || !newProduct.image) {
       Toast({
         title: "Error",
         description: "Please fill all the fields",
@@ -99,6 +100,13 @@ const Toast = useToast();
           value={newProduct.name}
           onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
           />
+        <Textarea
+        mb={2}
+        placeholder="Product Details"
+        name='details'
+        value={newProduct.details}
+        onChange={(e) => setNewProduct({ ...newProduct, details: e.target.value })}
+        />
         <Input
           mb={2}
           placeholder="Product Price"

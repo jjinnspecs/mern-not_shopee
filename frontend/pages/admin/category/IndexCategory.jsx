@@ -198,7 +198,7 @@ const IndexCategory = () => {
         mb={{ base: 2, md: 8 }}
           fontWeight="bold"
           color="teal.500"
-          >Product Categories
+          >Categories Management
           </Heading>
       </VStack>
       <VStack spacing={8} align="start">
@@ -251,7 +251,7 @@ const IndexCategory = () => {
                 <Tr key={category._id}>
                     <Td>{(currentPage - 1) * itemsPerPage + idx + 1}</Td>
                     <Td>{category.name}</Td>
-                    <Td>
+                    <Td w={10}>
                         <ButtonGroup spacing={2}>
                             <IconButton
                                 icon={<FaEdit />}

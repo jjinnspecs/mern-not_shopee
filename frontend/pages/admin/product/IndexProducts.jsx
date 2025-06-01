@@ -9,13 +9,11 @@ import { Container, Text, VStack, Input, Button,
   useDisclosure,
   TableContainer,
   Table,
-  TableCaption,
     Thead,
     Tbody,
     Tr,
     Th,
     Td,
-    Tfoot,
     ButtonGroup,
     IconButton,
     useToast,
@@ -30,7 +28,8 @@ import { Container, Text, VStack, Input, Button,
     Heading,
     Flex,
     Select,
-    Image
+    Image,
+    Textarea
 
  } from "@chakra-ui/react";
 
@@ -58,6 +57,7 @@ const IndexProducts = () => {
 
     const [newProduct, setNewProduct] = useState({
         name: "",
+        details: "",
         price: "",
         category: "",
         image: "",
@@ -67,6 +67,7 @@ const IndexProducts = () => {
     const [deleteProductId, setDeleteProductId] = useState(null);
     const [updatedProduct, setUpdatedProduct] = useState({
         name: "",
+        details: "",
         price: "",
         category: "",
         image: "",
@@ -93,11 +94,20 @@ const IndexProducts = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 4;
 
+
+
     const totalPages = Math.ceil(products.length / itemsPerPage);
-    const paginatedProducts = products.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
+
+        // sort products from newest to oldest
+    const sortedProducts = [...products].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
+
+        const paginatedProducts = sortedProducts.slice(
+            (currentPage - 1) * itemsPerPage,
+            currentPage * itemsPerPage
+        );
+
 
 
 
@@ -110,7 +120,7 @@ const IndexProducts = () => {
   const handleAddProduct = async() => {
     const priceNum = Number(newProduct.price);
 
-    if(!newProduct.name || !newProduct.price || !newProduct.category || !newProduct.image) {
+    if(!newProduct.name || !newProduct.details || !newProduct.price || !newProduct.category || !newProduct.image) {
       Toast({
         title: "Error",
         description: "Please fill all the fields",
@@ -161,7 +171,7 @@ const IndexProducts = () => {
 
   const handleUpdateProduct = async (pid, updatedProduct) => {
     const priceNum = Number(updatedProduct.price);
-    if (!updatedProduct.name || !updatedProduct.price || !updatedProduct.category || !updatedProduct.image) {
+    if (!updatedProduct.name || !updatedProduct.details || !updatedProduct.price || !updatedProduct.category || !updatedProduct.image) {
       Toast({
         title: "Error",
         description: "Please fill in all fields.",
@@ -232,7 +242,7 @@ const IndexProducts = () => {
         mb={{ base: 2, md: 8 }}
           fontWeight="bold"
           color="teal.500"
-          >Products
+          >Products Management
           </Heading>
       </VStack>
       <VStack spacing={8} align="start">
@@ -255,6 +265,12 @@ const IndexProducts = () => {
                   value={newProduct.name}
                   onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
                   type='text'
+                />
+                <Textarea
+                placeholder='Product Details'
+                name='details'
+                value={newProduct.details}
+                onChange={(e) => setNewProduct({ ...newProduct, details: e.target.value })}
                 />
                 <Input
                   placeholder='Product Price'
@@ -433,6 +449,13 @@ const IndexProducts = () => {
                   onChange={(e) => setUpdatedProduct({ ...updatedProduct, name: e.target.value })}
                   type='text'
                 />
+                <Textarea
+                placeholder='Product Details'
+                name='details'
+                value={updatedProduct.details}
+                onChange={(e) => setUpdatedProduct({ ...updatedProduct, details: e.target.value })}
+                type='text'
+                />
                 <Input
                   placeholder='Product Price'
                   name='price'
@@ -467,6 +490,8 @@ const IndexProducts = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
+
+              
      </TableContainer>
 
       </Container>

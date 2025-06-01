@@ -45,7 +45,7 @@ export const updateCategory = async (req, res) => {
     }
 
     // Check if category already exists
-    const existingCategory = await Category.fineOne({
+    const existingCategory = await Category.findOne({
         _id: { $ne: id },
         name: { $regex: `^${category.name}$`, $options: "i" }
     });

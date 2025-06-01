@@ -85,10 +85,16 @@ const IndexOrders = () => {
       const itemsPerPage = 4;
   
       const totalPages = Math.ceil(orders.length / itemsPerPage);
-      const paginatedOrders = orders.slice(
-          (currentPage - 1) * itemsPerPage,
-          currentPage * itemsPerPage
-      );
+
+    // sort orders from newest to oldest
+    const sortedOrders = [...orders].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
+        const paginatedOrders = sortedOrders.slice(
+            (currentPage - 1) * itemsPerPage,
+            currentPage * itemsPerPage
+        );
 
       useEffect(() => {
         fetchAllOrders();
@@ -210,7 +216,7 @@ const IndexOrders = () => {
                     <Td>{(currentPage - 1) * itemsPerPage + idx + 1}</Td>
                       <Td>{order._id.slice(-8).toUpperCase()}</Td>
                       <Td>{order.user?.email || order.user?._id}</Td>
-                      <Td>{Number(order.total).toLocaleString("en-PH", { minimumFractionDigits: 2})}</Td>
+                      <Td>₱ {Number(order.total).toLocaleString("en-PH", { minimumFractionDigits: 2})}</Td>
                       <Td>
                         <Badge
                         colorScheme={getStatusColor(order.status)}
@@ -337,6 +343,9 @@ const IndexOrders = () => {
                             <Box>
                                 <Text fontWeight="semibold" mb={2}>
                                     Customer Information
+                                </Text>
+                                <Text fontSize="sm">Name: {""}
+                                    { selectedOrder.customerName || 'N/A'}
                                 </Text>
                                 <Text fontSize="sm">Email:{" "}
                                     {selectedOrder.user?.email || 'N/A'}

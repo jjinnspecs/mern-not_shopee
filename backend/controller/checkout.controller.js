@@ -8,6 +8,7 @@ export const createPaymongoCheckout = async (req, res) => {
     try {
         const { 
             userId,
+            customerName,
             phone,
             deliveryAddress,
             billingAddress,
@@ -46,6 +47,7 @@ export const createPaymongoCheckout = async (req, res) => {
             //create order
             const order = await Order.create({
                 user: userId,
+                customerName,
                 items: orderItems,
                 total: amount,
                 paymentMethod: "cod",
@@ -54,10 +56,10 @@ export const createPaymongoCheckout = async (req, res) => {
                 phone,
             });
             // clear cart after successful order creation
-            await Cart.findOneAndUpdate(
-                { user: userId },
-                { $set: { items: [] } }
-            );
+            // await Cart.findOneAndUpdate(
+            //     { user: userId },
+            //     { $set: { items: [] } }
+            // );
 
             return res.json ({
                 success: true,
@@ -93,6 +95,7 @@ export const createPaymongoCheckout = async (req, res) => {
                         metadata: {
                             userId: userId.toString(),
                             email: email,
+                            customerName: JSON.stringify(customerName),
                             phone: phone,
                             deliveryAddress: JSON.stringify(deliveryAddress),
                             billingAddress: JSON.stringify(billingAddress),
@@ -119,6 +122,7 @@ export const createPaymongoCheckout = async (req, res) => {
 
         const order = await Order.create({
         user: userId,
+        customerName,
         items: orderItems,
         total: amount,
         paymentMethod: type,
@@ -189,12 +193,12 @@ export const handlePaymentSuccess = async (req, res) => {
             });
 
             // clear cart after successful payment confirmation
-            await Cart.findOneAndUpdate(
-                { user: order.user },
-                { $set: { items: [] } }
-            );
+            // await Cart.findOneAndUpdate(
+            //     { user: order.user },
+            //     { $set: { items: [] } }
+            // );
 
-            console.log("Payment confirmed, order updated and cart cleared");
+            console.log("Payment confirmed. Order updated");
 
             res.json({ 
                 success: true,

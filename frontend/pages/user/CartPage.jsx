@@ -77,7 +77,7 @@ const CartPage = () => {
         textAlign="center" mb={{ base: 2, md: 8 }}
         color="teal.500"
         >
-          Your Cart
+          My Cart
         </Heading>
       </VStack>
       <TableContainer marginTop={8}>

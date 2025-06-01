@@ -1,4 +1,4 @@
-import { Container, SimpleGrid, Text, VStack, HStack, Flex, Input, Select, Button, Heading } from "@chakra-ui/react";
+import { Container, SimpleGrid, Text, VStack, HStack, Flex, Input, Select, Button, Heading, useDisclosure } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useProductStore } from "../src/store/product";
@@ -16,6 +16,7 @@ const HomePage = () => {
   }, [fetchProducts, fetchCategories]);
   // console.log("Products:", products);
 
+
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -23,7 +24,11 @@ const HomePage = () => {
     const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase());
     const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
     return matchesSearch && matchesCategory;
-  });
+  })
+
+  // sort products
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
 
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -155,6 +160,7 @@ const HomePage = () => {
 
             </Flex>
       </VStack>
+      
       </Container>
 
   );
