@@ -32,7 +32,7 @@ const Navbar = () => {
         gap={{ base: 2, md: 0 }}
       >
       <Flex alignItems="center" gap={4} w="full" justify={{ base: "center", md: "flex-start"}}>
-        <Menu isLazy>
+        {/* <Menu isLazy>
           <MenuButton
           as={IconButton}
           aria-label='Options'
@@ -56,7 +56,7 @@ const Navbar = () => {
             </MenuItem>
             </Link>
           </MenuList>
-        </Menu>
+        </Menu> */}
 
         <Text
           fontSize={{ base: 'xl', md: '3xl' }}

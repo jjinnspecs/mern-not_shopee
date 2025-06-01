@@ -33,7 +33,13 @@ try {
         { expiresIn: '1d' }
     );
 
-    res.json({ success: true, token});
+    res.json({ success: true, token,
+        user: {
+            _id: admin._id,
+            username: admin.username,
+            role: admin.role,
+        }
+    });
 } catch (error) {
     console.error('Error during admin login:', error);
     res.status(500).json({ message: 'Server error. Please try again later.' });
