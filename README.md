@@ -13,7 +13,6 @@ Finished features:
 Delivered, Cancelled).
 
 Not yet finished:
-- Admin login
 
 - Product Reviews & Ratings
 * Users can leave reviews and rate products.
@@ -21,9 +20,6 @@ Not yet finished:
 
 - Wishlist/Favorites
 * Users can add products to a wishlist for future purchase.
-
-- User Profile Management
-* Users can update their profile info, change password, and manage addresses.
 
 - Admin Dashboard
 * Sales analytics (charts for sales, top products, etc.).
