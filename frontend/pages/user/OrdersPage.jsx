@@ -96,10 +96,7 @@ const OrdersPage = () => {
     return (
         <Container maxW="container.xl" p={12}>
             <VStack spacing={8} align="stretch">
-        <Heading as="h1" size={{ base: "lg", md: "xl" }} 
-        textAlign="center" mb={{ base: 2, md: 8 }}
-        color="teal.500"
-        >
+        <Heading size="lg" color="teal.500" textAlign="center">
           My Orders
         </Heading>
 

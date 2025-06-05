@@ -51,7 +51,7 @@ const CartPage = () => {
     return (
       <Container maxW="container.md" p={12}>
         <VStack spacing={8}>
-          <Heading size="lg">Your Cart</Heading>
+          <Heading size="lg" color="teal.500">My Cart</Heading>
           <Text>You must be logged in to view your cart.</Text>
           <Button colorScheme="teal" onClick={() => navigate("/user/login")}>
             Login

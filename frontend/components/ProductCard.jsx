@@ -4,17 +4,8 @@ import {
     Image,
     Heading,
     Text,
-    HStack,
-    VStack,
-    IconButton,
     useColorModeValue,
     useToast,
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogContent,
-    AlertDialogOverlay,
     Button,
     useDisclosure,
     Modal,
@@ -24,15 +15,13 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    Input,
-    Select,
     useBreakpointValue,
     UnorderedList,
     ListItem,
+    Stack
 } from '@chakra-ui/react';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useProductStore } from '../src/store/product';
-import { useState } from 'react';
 import { useCategoryStore } from '../src/store/category';
 import { useCartStore } from '../src/store/cart';
 import { useAuthStore } from '../src/store/auth';
@@ -42,104 +31,16 @@ import { FaShoppingCart } from "react-icons/fa";
 const ProductCard = ({ product }) => {
 
     const { 
-        isOpen: isDeleteOpen, 
-        onOpen: onDeleteOpen, 
-        onClose: onDeleteClose 
-    } = useDisclosure();
-
-    const { 
-        isOpen: isUpdateOpen, 
-        onOpen: onUpdateOpen, 
-        onClose: onUpdateClose 
-    } = useDisclosure();
-
-        const { 
         isOpen: isViewOpen, 
         onOpen: onViewOpen, 
         onClose: onViewClose 
     } = useDisclosure();
 
-    const [updatedProduct, setUpdatedProduct] = useState(product);
-
-    const textColor = useColorModeValue('gray.600', 'gray.200');
+    const textColor = useColorModeValue('gray.700', 'gray.200');
     const bgColor = useColorModeValue('white', 'gray.800');
-    const Toast = useToast();
-    const { deleteProduct, updateProduct } = useProductStore();
+    const toast = useToast();
 
-
-    const cancelRef = useRef();
-
-    const handleDeleteProduct = async (pid) => {
-        const { success, message } = await deleteProduct(pid);
-        if (!success) {
-            Toast({
-                title: "Error",
-                description: message,
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-            });
-        } else {
-            Toast({
-                title: "Success",
-                description: message,
-                status: "success",
-                duration: 3000,
-                isClosable: true,
-            });
-        }
-        onDeleteClose();
-    };
-
-    const handleUpdateProduct = async (pid, updatedProduct) => {
-        const priceNum = Number(updatedProduct.price);
-        if (!updatedProduct.name || !updatedProduct.price || !updatedProduct.category || !updatedProduct.image) {
-            Toast({
-                title: "Error",
-                description: "Please fill in all fields.",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-            });
-            return;
-        }
-        
-        if (isNaN(priceNum) || priceNum <= 0) {
-            Toast({
-                title: "Error",
-                description: "Price must be a number greater than 0.",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-            });
-            return;
-        }
-
-
-
-        const { success, message } = await updateProduct(pid, { ...updatedProduct, price: priceNum });
-        if (!success) {
-            Toast({
-                title: "Error",
-                description: message,
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-            });
-        } else {
-            Toast({
-                title: "Success",
-                description: "Product updated successfully",
-                status: "success",
-                duration: 3000,
-                isClosable: true,
-            });
-            onUpdateClose();
-        }
-    };
-
-    const categories = useCategoryStore((state) => state.categories);
-    const fetchCategories = useCategoryStore((state) => state.fetchCategories);
+    const { categories, fetchCategories } = useCategoryStore();
     useEffect(() => {
         fetchCategories();
     }, [fetchCategories]);
@@ -152,7 +53,7 @@ const ProductCard = ({ product }) => {
 
     const handleAddToCart = async () => {
         if (!token || !user?.email) {
-            Toast({
+            toast({
                 title: "Login required",
                 description: "Please log in to add items to your cart.",
                 status: "warning",
@@ -162,207 +63,117 @@ const ProductCard = ({ product }) => {
             return;
         }
 
-    const userId = user?._id;
-    const res = await addToCart({ userId, productId: product._id, quantity: 1 });
-    if (!res.success) {
-        Toast({
-            title: "Error",
-            description: res.message || "Failed to add to cart.",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-        });
-    } else {
-         Toast({
-            title: "Added to cart",
-            description: "Product has been added to your cart.",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-        });
-    }
+    const res = await addToCart({ userId: user._id, productId: product._id, quantity: 1 });
+    toast({
+        title: res.success ? "Added to cart" : "Error",
+        description: res.message ? "Product added to cart successfully." : res.message,
+        status: res.success ? "success" : "error",
+        duration: 3000,
+        isClosable: true,
+    });
 };
 
-const cartButtonLabel = useBreakpointValue({ base: "Add", sm: "Add", md:"Add to Cart" });
+const cartButtonLabel = useBreakpointValue({ base: "Add", sm: "Add", md:"Add", lg: "Add to Cart" });
 
 
     return (
         <Box
-            shadow='lg'
-            rounded='lg'
-            overflow='hidden'
-            transition='all 0.3s'
-            _hover={{ shadow: 'xl', transform: 'scale(1.02)' }}
             bg={bgColor}
             textColor={textColor}
+            overflow="hidden"
+            shadow="md"
+            borderRadius="md"
+            transition="all 0.2s"
+            _hover={{ shadow: "xl", transform: "scale(1.02)" }}
+            display="flex"
+            flexDirection="column"
+            height="100%"
+            justifyContent="space-between"
         >
-            <Image
+            <Box position="relative" paddingTop="75%"> {/* 4:3 aspect ratio */}
+                <Image
                 src={product.image}
                 alt={product.name}
-                h={48}
-                w='full'
-                objectFit='cover'
-            />
-            <Box p={4}>
-                <Heading fontSize={['sm', 'md', 'xl']}
-                 fontWeight='bold'
+                position="absolute"
+                top="0"
+                left="0"
+                width="100%"
+                height="100%"
+                objectFit="cover"
+                />
+            </Box>
+
+            <Box p={{ base: 4, md: 6 }}>
+               <Heading
+                fontSize={{ base: 'md', sm: 'lg', md: 'xl' }}
                 noOfLines={2}
-                 minH={['2.5em', '2.8em', '3em']}>
+                >
                     {product.name}
                 </Heading>
 
-                <Text fontSize='lg' color='gray.500'>
+                <Text fontWeight="bold" color="teal.600" fontSize="lg">
                        ₱{" "}
                         {Number(product.price)
                             .toLocaleString("en-PH", { minimumFractionDigits: 2 })}
                 </Text>
 
-                <Text fontSize='md' color='gray.500' mb={4}>
+                <Text fontSize='sm' color='gray.500' mb={4}>
                     Category: {categoryName}
                 </Text>
 
-                <HStack spacing={2} w="full">
+                 <Stack
+                    direction={{ base: 'column', sm: 'row' }}
+                    spacing={3}
+                    justify="stretch"
+                    align="stretch"
+                    >
 
-                    <Button 
-                        variant="outline" 
-                        colorScheme="gray" 
+                    <Button
+                        variant="outline"
+                        colorScheme="gray"
                         onClick={onViewOpen}
-                        size={{ base: "sm", md: "md" }}
-                        flex="1"
-                        fontSize={{ base: "xs", md: "md" }}
-                        px={{ base: 2, md: 4 }}
+                        size="sm"
+                        w="full"
                     >
                         Details
                     </Button>
 
                     <Button
-                    colorScheme="orange" 
-                    onClick={handleAddToCart}
-                    leftIcon={<FaShoppingCart />}
-                    size={{ base: "sm", md: "md" }}
-                    flex="2"
-                    fontSize={{ base: "sm", md: "md" }}
-                    px={{ base: 2, md: 4 }}
+                        leftIcon={<FaShoppingCart />}
+                        colorScheme="orange"
+                        onClick={handleAddToCart}
+                        size="sm"
+                        w="full"
                     >
                         {cartButtonLabel}
                     </Button>
-                                        {/* <IconButton icon={<EditIcon />} 
-                    onClick={onUpdateOpen}
-                    colorScheme='blue' />
-                    <IconButton
-                        icon={<DeleteIcon />}
-                        colorScheme='red'
-                        onClick={onDeleteOpen}
-                    />
-
-                    <Box flex="1" />
-                    <IconButton colorScheme="orange" onClick={handleAddToCart} icon={<FaShoppingCart />}/> */}
-                </HStack>
+                </Stack>
             </Box>
-
-            <AlertDialog
-                isOpen={isDeleteOpen}
-                leastDestructiveRef={cancelRef}
-                onClose={onDeleteClose}
-            >
-                <AlertDialogOverlay>
-                    <AlertDialogContent>
-                        <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                            Delete Product
-                        </AlertDialogHeader>
-
-                        <AlertDialogBody>
-                            Are you sure you want to delete this product?
-                        </AlertDialogBody>
-
-                        <AlertDialogFooter>
-                            <Button ref={cancelRef} onClick={onDeleteClose}>
-                                Cancel
-                            </Button>
-                            <Button colorScheme='red' onClick={() => handleDeleteProduct(product._id)} ml={3}>
-                                Delete
-                            </Button>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialogOverlay>
-            </AlertDialog>
-
-            <Modal isOpen={isUpdateOpen} onClose={onUpdateClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader textAlign="center">Update Product</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <VStack spacing={4}>
-                            <Input
-                                placeholder='Product Name'
-                                name='name'
-                                value={updatedProduct.name}
-                                onChange={(e) => setUpdatedProduct({ ...updatedProduct, name: e.target.value })}>
-                            </Input>
-                            <Input
-                                placeholder='Product Price'
-                                name='price'
-                                value={updatedProduct.price}
-                                onChange={(e) => setUpdatedProduct({ ...updatedProduct, price: e.target.value })}
-                            ></Input>
-
-                            <Select
-                                placeholder="Select Category"
-                                name="category"
-                                value={updatedProduct.category}
-                                onChange={(e) => setUpdatedProduct({ ...updatedProduct, category: e.target.value})}
-                            >
-                                {categories.map((category) => (
-                                    <option key={category._id} value={category._id}>
-                                        {category.name}
-                                    </option>
-                                ))}
-                            </Select>
-                            <Input
-                                placeholder='Product Image'
-                                name='image'
-                                value={updatedProduct.image}
-                                onChange={(e) => setUpdatedProduct({ ...updatedProduct, image: e.target.value})}
-                            ></Input>
-                        </VStack>
-                        
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={() => handleUpdateProduct(product._id, updatedProduct)}>Update</Button>
-                        <Button onClick={onUpdateClose}>Cancel</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
 
                     {/* View Details Modal */}
                     <Modal isOpen={isViewOpen} onClose={onViewClose} size="lg" isCentered>
                       <ModalOverlay />
-                      <ModalContent borderRadius="xl" boxShadow="lg">
+                      <ModalContent borderRadius="lg">
                         <ModalHeader 
                         textAlign="center"
-                         textTransform="uppercase"
                           color="teal.200"
-                           fontWeight="bold">{product.name}</ModalHeader>
+                        >
+                            {product.name}
+                        </ModalHeader>
                         <ModalCloseButton />
-                        <ModalBody px={6} py={4}>
-                          <VStack spacing={3} align="start">
-                            <Box>
-                            {/* <Text fontSize="xl" fontWeight="medium" color="gray.500">Product Details:</Text> */}
-                            {/* <Text fontSize="lg" mt={1}>{product.details || "No details available."}</Text> */}
-                            <UnorderedList mt={1} spacing={2}>
-                                {product.details ?
-                                product.details.split("\n")
-                                .map((line, idx) => (
-                                    <ListItem key={idx}>
-                                        <Text fontSize="md">{line.replace(/^•\s*/, '')}</Text>
-                                    </ListItem>
-                                ))
-                            : <Text align="center">No details available.</Text>}
+                       <ModalBody>
+                            {product.details ? (
+                            <UnorderedList spacing={2}>
+                                {product.details.split('\n').map((line, idx) => (
+                                <ListItem key={idx}>
+                                    <Text fontSize="sm">{line.replace(/^•\s*/, '')}</Text>
+                                </ListItem>
+                                ))}
                             </UnorderedList>
-                            </Box>
-                        </VStack>
-                          </ModalBody>
+                            ) : (
+                            <Text>No details available.</Text>
+                            )}
+                        </ModalBody>
                           </ModalContent>
                           </Modal>
         </Box>

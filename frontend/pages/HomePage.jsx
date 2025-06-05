@@ -1,144 +1,212 @@
-import { Container, SimpleGrid, Text, VStack, HStack, Flex, Input, Select, Button, Heading, useDisclosure } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { 
+  Container, 
+  SimpleGrid, 
+  Text, 
+  VStack, 
+  HStack, 
+  Flex, 
+  Input, 
+  Select, 
+  Button, 
+  Heading,
+  InputGroup,
+  InputRightElement,
+  Skeleton,
+  SkeletonText,
+} from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useProductStore } from "../src/store/product";
-import ProductCard from "../components/ProductCard";
 import { useCategoryStore } from "../src/store/category";
+import ProductCard from "../components/ProductCard";
 
 
 const HomePage = () => {
-  const {fetchProducts, products} = useProductStore();
-  const {fetchCategories, categories} = useCategoryStore();
+  
+  const { fetchProducts, products } = useProductStore();
+  const { fetchCategories, categories } = useCategoryStore();
+  const topRef = useRef(null); // for scrolling to top
 
+  // fetch products and categories on initial render
   useEffect(() => {
     fetchProducts();
     fetchCategories();
   }, [fetchProducts, fetchCategories]);
-  // console.log("Products:", products);
 
+  // local input states
+  const [searchInput, setSearchInput] = useState("");
+  const [selectedCategoryInput, setSelectedCategoryInput] = useState("");
 
+  // actual applied filters
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
-    return matchesSearch && matchesCategory;
-  })
-
-  // sort products
-  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-
-  //pagination
+  // pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 8;
 
+  // filter and sort products
+  const filteredProducts = products
+    .filter((product) => {
+      const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase());
+      const matchesCategory = selectedCategory 
+      ? product.category === selectedCategory 
+      : true;
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // sort products by newest first
+  
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  
+  // pagination
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  //reset pagination when search or category changes
+
+  // go back to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [search, selectedCategory]);
 
+  // apply filters when it is called
+  const handleApplyFilters = () => {
+    setSearch(searchInput);
+    setSelectedCategory(selectedCategoryInput);
+  }
+
+  // reset all filters and inputs
+  const handleClearSearch = () => {
+    setSearchInput("");
+    setSelectedCategoryInput("");
+    setSearch("");
+    setSelectedCategory("");
+  };
+
+  // handle page change and scroll to top
+  const handlePageChange = useCallback((newPage) => {
+    setCurrentPage(newPage);
+    // use setTimeout to ensure the scroll happens after state update and re-render
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }, 10);
+  }, []);
+
   return (
-    <Container maxW={"container.xl"} p={12}>
-      <VStack spacing={8} align="stretch">
-        <Heading as={"h1"} size={{ base:"lg", md: "xl"}}
+    <Container maxW="container.xl" p={{ base: 4, md: 12 }} id="top">
+      <VStack spacing={6} align="stretch" ref={topRef}>
+        <Heading
+          as="h1"
+          size={{ base: "lg", md: "xl" }}
           fontWeight="bold"
           textAlign="center"
           color="teal.500"
-          mb={{ base: 2, md: 8 }}
-          >Current Products
-          </Heading>
+        >
+          Current Products
+        </Heading>
 
-         <Flex alignItems="center" gap={4} mb={4} justifyContent="center">
-                 <Input
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            maxW="400px"
-            borderColor="teal.500"
-            flex="1"
-          />
-          <Select
-            placeholder="All"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            maxW="150px"
-            borderColor="teal.500"
-            flex="1"
-            >
-              {categories.map((category) => (
-                <option key={category._id} value={category._id}>
-                {category.name}
-                </option>
-              ))}
-          </Select>
-                </Flex>
-          <SimpleGrid
-            columns={{ 
-              base: 1,
-              sm: 2,
-              md: 3,
-              lg: 4,
-            }}
-            spacing={10}
-            w={"full"}
-          >
 
-            {/* {products.length > 0 ? (
-            products.map((product) => (
-              <ProductCard 
-              key={product._id}
-              product={product}
+        <Flex
+          direction={{ base: "column", sm: "row" }}
+          align={{ base: "stretch", sm: "center" }}
+          gap={{ base: 3, sm: 4 }}
+          mb={4}
+          wrap="wrap"
+        >
+
+          <Flex flex="2" minW="200px">
+            <InputGroup>
+              <Input
+                placeholder="Search products..."
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                borderColor="teal.500"
               />
-            )) */}
-            {paginatedProducts.length > 0 ? (
-              paginatedProducts.map((product) => (
-                <ProductCard key={product._id} product={product}/>
-              ))
-          ) : (
-          
-          <Flex
-            w="full"
-            h="200px"
-            align="center"
-            justify="center"
-            gridColumn="1 / -1"
-          >
-          <Text fontSize="xl" 
-          textAlign="center"
-          color="gray.600"
-          > No products found.{" "}
-          <Link to={"/create"}>
-            <Text as="span" 
-            color="blue.500"
-            fontWeight="bold" 
-            _hover={{textDecoration:"underline"}}>
-              Create a product
-            </Text>
-          </Link>
-          </Text>
+              <InputRightElement width="4rem">
+                {searchInput ? (
+                  <Button
+                    h="1.75rem"
+                    size="sm"
+                    onClick={handleClearSearch}
+                    variant="ghost"
+                  >
+                    Clear
+                  </Button>
+                ) : (
+                  <SearchIcon color="gray.500" />
+                )}
+              </InputRightElement>
+            </InputGroup>
           </Flex>
-            )}
-                    </SimpleGrid>
 
-            {/* Pagination Controls */}
+
+          <Select
+            placeholder="All Categories"
+            value={selectedCategoryInput}
+            onChange={(e) => setSelectedCategoryInput(e.target.value)}
+            borderColor="teal.500"
+            flex="1"
+            minW="100px"
+          >
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </Select>
+
+
+          <Button
+            onClick={handleApplyFilters}
+            colorScheme="teal"
+            flexShrink={0}
+            minW="140px"
+          >
+            Search
+          </Button>
+        </Flex>
+
+        <SimpleGrid
+          columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
+          spacing={6}
+          w="full"
+        >
+          {paginatedProducts.length > 0 ? (
+            paginatedProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))
+          ) : (
+            <Flex
+              w="full"
+              h="200px"
+              align="center"
+              justify="center"
+              gridColumn="1 / -1"
+            >
+              <Text fontSize="lg" textAlign="center" color="gray.600">
+                No products found.
+              </Text>
+            </Flex>
+          )}
+        </SimpleGrid>
+
+        {/* pagination */}
+        {totalPages > 0 && (
+          <VStack spacing={2} mt={6}>
             <Text textAlign="center" color="gray.600">
               Page {currentPage} of {totalPages}
             </Text>
-            <Flex justify="center" gap={2}>
+            <HStack spacing={2} wrap="wrap" justify="center">
               <Button
                 size="sm"
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                onClick={() => handlePageChange(currentPage - 1)}
                 isDisabled={currentPage === 1}
-                >
-                  Prev
+              >
+                Prev
               </Button>
               {Array.from({ length: totalPages }, (_, index) => (
                 <Button
@@ -146,23 +214,24 @@ const HomePage = () => {
                   size="sm"
                   variant={currentPage === index + 1 ? "solid" : "outline"}
                   colorScheme="teal"
-                  onClick={() => setCurrentPage(index + 1)}>
-                    {index + 1}
-                  </Button>
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </Button>
               ))}
               <Button
                 size="sm"
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                isDisabled={currentPage === totalPages || totalPages === 0}
+                onClick={() => handlePageChange(currentPage + 1)}
+                isDisabled={currentPage === totalPages}
               >
                 Next
               </Button>
-
-            </Flex>
+            </HStack>
+          </VStack>
+        )}
       </VStack>
-      
-      </Container>
-
+    </Container>
   );
-}
+};
+
 export default HomePage;

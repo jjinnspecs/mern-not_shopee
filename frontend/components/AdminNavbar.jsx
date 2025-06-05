@@ -47,15 +47,15 @@ const AdminNavbar = () => {
   const location = useLocation();
   const { isOpen, onToggle } = useDisclosure();
 
-  // Get current user from store or localStorage
+  // get current user from store or localStorage
   const currentUser = storeUser || getStoredUser();
   const currentToken = storeToken || localStorage.getItem("token");
 
   useEffect(() => {
-    console.log('AdminNavbar auth check:', { currentToken, currentUser }); // Debug log
+    // console.log('AdminNavbar auth check:', { currentToken, currentUser }); // debug log
     
     if (!currentToken || !currentUser || currentUser.role !== "admin") {
-      console.log('Auth failed in navbar, redirecting to login');
+      // console.log('Auth failed in navbar, redirecting to login');
       navigate("/admin/login");
     }
   }, [navigate, currentToken, currentUser]);
@@ -119,7 +119,6 @@ const AdminNavbar = () => {
     <Box bg={bgColor} borderBottom="1px" borderColor={borderColor} shadow="sm" position="sticky" top={0} zIndex={1000}>
       <Container maxW="container.xl">
         <Flex py={4} align="center">
-          {/* Logo/Brand */}
           <Text fontSize={{ base: "lg", md: "xl" }} fontWeight="bold" color={brandColor}>
             Admin Panel
           </Text>
@@ -127,7 +126,7 @@ const AdminNavbar = () => {
           <Spacer />
           <DesktopNav />
 
-          <HStack spacing={4}>
+          <HStack spacing={4} paddingLeft={4}>
             <IconButton
               icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
               aria-label="Toggle Navigation"
@@ -137,7 +136,7 @@ const AdminNavbar = () => {
               color={textColor}
             />
 
-            {/* User menu for desktop */}
+            {/* user menu for desktop */}
             <Menu>
               <MenuButton
                 as={Button}
@@ -179,7 +178,7 @@ const AdminNavbar = () => {
               </MenuList>
             </Menu>
 
-            {/* Mobile logout button */}
+            {/* mobile logout button */}
             <Button
               display={{ md: "none" }}
               size="sm"
