@@ -11,6 +11,8 @@ Finished features:
 - Checkout process(PayMongo Test Payment)
 - Order History & Tracking( Allow users to view their past orders and order statuses. || Admins can update order statuses (e.g., Processing, Shipped, 
 Delivered, Cancelled).
+- Admin authentication
+
 
 Not yet finished:
 
