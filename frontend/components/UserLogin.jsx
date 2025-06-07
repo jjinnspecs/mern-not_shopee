@@ -1,21 +1,19 @@
 import { useState } from "react";
 import { useAuthStore } from "../src/store/auth";
-import { Container, Heading, 
-Box, 
-Input, 
-Button, 
-VStack, 
-useToast,
-HStack,
-Text,
-useColorModeValue,
+import {
+  Container,
+  Heading,
+  Box,
+  Input,
+  Button,
+  VStack,
+  useToast,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
 
 const UserRequestOtp = ({ onOtpRequested }) => {
   const requestUserOtp = useAuthStore((state) => state.requestUserOtp);
-  const verifyUserOtp = useAuthStore((state) => state.verifyUserOtp);
-  const logout = useAuthStore((state) => state.logout);
-  const token = useAuthStore((state) => state.token);
 
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -36,53 +34,56 @@ const UserRequestOtp = ({ onOtpRequested }) => {
       });
     } else {
       Toast({
-        title: "OTP sent! Please check your email.",
+        title: "OTP sent!",
         description: data.message,
         status: "success",
         duration: 3000,
-        isClosable: true
+        isClosable: true,
       });
       onOtpRequested(email);
     }
   };
 
   return (
-    <Container maxW={"container.sm"}>
-    <VStack spacing={8} align="stretch">
-              <Heading as={"h1"} size={{ base:"lg", md: "xl"}} textAlign={"center"}
-        mb={{ base: 2, md: 8 }}
-        color="teal.500">
-        User Login
-      </Heading>
-    <VStack spacing={6}>
-            <form onSubmit={handleRequest} style={{ width:"100%"}}>
-        <HStack>
-       <Input
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        size={"md"}
-        required
-      />
-        <Button
-            type="submit"
-            bg="teal.200"
-            size={{ base: "md", md: "md"}}
-            color="black"
+    <Container maxW="md" py={{ base: 6, md: 10 }}>
+      <VStack spacing={8} align="stretch">
+        <Heading
+          as="h1"
+          size={{ base: "lg", md: "xl" }}
+          textAlign="center"
+          color="teal.500"
         >
-            <Text p={4}>Request OTP</Text>
-        </Button>
-        </HStack>
-                </form>
-        <VStack>
+          User Login
+        </Heading>
+
+        <form onSubmit={handleRequest}>
+          <Stack direction={{ base: "column", sm: "row" }} spacing={4}>
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              size="md"
+              required
+            />
+            <Button
+              type="submit"
+              colorScheme="teal"
+              size="md"
+              w={{ base: "full", sm: "auto" }}
+            >
+              Request OTP
+            </Button>
+          </Stack>
+        </form>
+
+        {message && (
+          <Text fontSize="sm" color="gray.600" textAlign="center">
             {message}
-        </VStack>
-
-    </VStack>
-    </VStack>
+          </Text>
+        )}
+      </VStack>
     </Container>
-
   );
 };
 

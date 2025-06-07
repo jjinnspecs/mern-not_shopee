@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useAuthStore } from "../src/store/auth";
 import { useNavigate } from "react-router-dom";
-import {Container,
+import {
+  Container,
   Heading,
   Input,
   Button,
   VStack,
   useToast,
-  HStack,
-  Text
+  Stack,
+  Text,
 } from "@chakra-ui/react";
 
 const UserVerifyOtp = ({ email }) => {
@@ -21,9 +22,9 @@ const UserVerifyOtp = ({ email }) => {
 
   const handleVerify = async (e) => {
     e.preventDefault();
-    const data = await verifyUserOtp(email, otp)
+    const data = await verifyUserOtp(email, otp);
     if (!data.success) {
-        Toast({
+      Toast({
         title: "Verification failed",
         description: data.message || "Invalid or expired OTP.",
         status: "error",
@@ -45,41 +46,44 @@ const UserVerifyOtp = ({ email }) => {
   };
 
   return (
-   <Container maxW={"container.sm"}>
-    <VStack spacing={8} align="stretch">
-              <Heading as={"h1"} size={{ base:"lg", md: "xl"}} textAlign={"center"}
-        mb={{ base: 2, md: 8 }}
-        color="teal.500"
+    <Container maxW="md" py={{ base: 6, md: 10 }}>
+      <VStack spacing={8} align="stretch">
+        <Heading
+          as="h1"
+          size={{ base: "lg", md: "xl" }}
+          textAlign="center"
+          color="teal.500"
         >
-        User Verification
-      </Heading>
-    <VStack spacing={6}>
-            <form onSubmit={handleVerify} style={{ width:"100%"}}>
-        <HStack>
-       <Input
-        type="text"
-        placeholder="Enter OTP"
-        value={otp}
-        onChange={e => setOtp(e.target.value)}
-        size={"md"}
-        required
-      />
-        <Button
-            type="submit"
-            bg="teal.200"
-            size={{ base: "md", md: "md"}}
-            color="black"
-        >
-            <Text p={4}>Verify OTP</Text>
-        </Button>
-        </HStack>
-                </form>
-        <VStack>
-            {message}
-        </VStack>
+          User Verification
+        </Heading>
 
-    </VStack>
-    </VStack>
+        <form onSubmit={handleVerify}>
+          <Stack direction={{ base: "column", sm: "row" }} spacing={4}>
+            <Input
+              type="text"
+              placeholder="Enter OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              size="md"
+              required
+            />
+            <Button
+              type="submit"
+              colorScheme="teal"
+              size="md"
+              w={{ base: "full", sm: "auto" }}
+            >
+              Verify OTP
+            </Button>
+          </Stack>
+        </form>
+
+        {message && (
+          <Text fontSize="sm" color="gray.600" textAlign="center">
+            {message}
+          </Text>
+        )}
+      </VStack>
     </Container>
   );
 };

@@ -171,7 +171,7 @@ const HomePage = () => {
         </Flex>
 
         <SimpleGrid
-          columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
+          columns={{ base: 2, sm: 2, md: 3, lg: 4 }}
           spacing={6}
           w="full"
         >
@@ -182,7 +182,6 @@ const HomePage = () => {
           ) : (
             <Flex
               w="full"
-              h="200px"
               align="center"
               justify="center"
               gridColumn="1 / -1"

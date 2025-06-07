@@ -97,7 +97,7 @@ const Navbar = () => {
                   )}
 
                   <MenuItem onClick={toggleColorMode}>
-                    {colorMode === "dark" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+                    {colorMode === "dark" ? "Dark Mode" : "Light Mode"}
                   </MenuItem>
                 </MenuList>
               </Menu>
