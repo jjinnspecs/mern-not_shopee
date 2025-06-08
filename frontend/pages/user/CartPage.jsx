@@ -22,6 +22,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   useColorModeValue,
+  Spinner
 } from "@chakra-ui/react";
 import { FaTrash } from "react-icons/fa";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
@@ -32,7 +33,7 @@ import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   const { user, token } = useAuthStore();
-  const { cart, fetchCart, removeFromCart, updateQuantity } = useCartStore();
+  const { cart, fetchCart, removeFromCart, updateQuantity, loading } = useCartStore();
   const toast = useToast();
   const navigate = useNavigate();
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -184,6 +185,17 @@ const CartPage = () => {
       </Card>
     );
   };
+
+      if (loading) {
+          return (
+              <Container maxW="container.xl" py={8}>
+                  <VStack spacing={4}>
+                      <Spinner size="xl" />
+                      <Text>Loading cart...</Text>
+                  </VStack>
+              </Container>
+          );
+      }
 
   return (
     <Container maxW="container.lg" py={6}>

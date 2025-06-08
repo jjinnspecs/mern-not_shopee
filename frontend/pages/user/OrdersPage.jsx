@@ -185,10 +185,9 @@ const OrdersPage = () => {
                     <Center py={12} flexDirection="column" textColor={textColor} bg={bgColor}>
                         <Icon as={FaBoxOpen} boxSize={16} mb={4} />
                         <Text fontSize="lg" fontWeight="medium">
-                        You haven't placed any orders yet.
+                        No orders yet.
                         </Text>
                         <Text fontSize="md" mt={2} color="gray.400" maxW="400px" textAlign="center">
-                        Start shopping to see your orders here!
                         </Text>
                     </Center>
         ): (
@@ -245,6 +244,7 @@ const OrdersPage = () => {
               {selectedOrder ? (
                 <Box>
                   <Text fontWeight="bold">Order ID: #{selectedOrder._id.slice(-8).toUpperCase()}</Text>
+                  <Text>Order date: {formatDate(selectedOrder.createdAt)}</Text>
                   <Text>Status: <Badge colorScheme={getStatusColor(selectedOrder.status)}>{selectedOrder.status}</Badge></Text>
                   <Text mt={3} mb={1}>Items:</Text>
                   <VStack align="start" spacing={2}>
@@ -292,7 +292,6 @@ const OrderCard = ({ order, getStatusColor, bgColor, textColor, onView}) => {
                         </Badge>
                     </HStack>
 
-                    {/* <Divider /> */}
 
                     <VStack spacing={2} align="stretch">
 
@@ -325,7 +324,6 @@ const OrderCard = ({ order, getStatusColor, bgColor, textColor, onView}) => {
                         ))}
                     </VStack>
 
-                <Divider />
 
                     <HStack justify="end" fontSize="sm">
 
@@ -340,7 +338,6 @@ const OrderCard = ({ order, getStatusColor, bgColor, textColor, onView}) => {
                         </VStack>
                     </HStack>
 
-                    <Divider />
 
 
                     <Button size="sm" colorScheme="teal" alignSelf="flex-end" onClick={() => onView(order)}>

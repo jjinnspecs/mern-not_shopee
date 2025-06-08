@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 export const useProductStore = create((set) => ({
     products: [],
+    loading: false,
     setProducts: (products) => set({ products }),
     createProduct: async (newProduct) => {
         if (!newProduct.name || !newProduct.details || !newProduct.price || !newProduct.image) {
@@ -22,9 +23,10 @@ export const useProductStore = create((set) => ({
     },
 
     fetchProducts: async () => {
+        set({ loading: true });
         const res = await fetch("/api/products");
         const data = await res.json();
-        set({ products: data.data });
+        set({ products: data.data, loading: false });
         return { success: true, message: "Products fetched successfully" };
     },
 

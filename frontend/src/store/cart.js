@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 export const  useCartStore = create((set) => ({
     cart: null,
+    loading: false,
 
     addToCart: async ({ userId, productId, quantity = 1 }) => {
         const res = await fetch("/api/cart/add", {
@@ -14,9 +15,10 @@ export const  useCartStore = create((set) => ({
         return data;
     },
     fetchCart: async (userId) => {
+      set({ loading: true });
         const res = await fetch(`/api/cart/${userId}`);
         const data = await res.json();
-        if (data.success) set({ cart: data.cart });
+        if (data.success) set({ cart: data.cart, loading: false });
         return data;
     },
      removeFromCart: async ({ userId, productId }) => {

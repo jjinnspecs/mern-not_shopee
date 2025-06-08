@@ -13,6 +13,7 @@ import {
   InputRightElement,
   Skeleton,
   SkeletonText,
+  Spinner
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useEffect, useState, useRef, useCallback } from "react";
@@ -23,7 +24,7 @@ import ProductCard from "../components/ProductCard";
 
 const HomePage = () => {
   
-  const { fetchProducts, products } = useProductStore();
+  const { fetchProducts, products, loading } = useProductStore();
   const { fetchCategories, categories } = useCategoryStore();
   const topRef = useRef(null); // for scrolling to top
 
@@ -96,6 +97,17 @@ const HomePage = () => {
     }, 10);
   }, []);
 
+    if (loading) {
+        return (
+            <Container maxW="container.xl" py={8}>
+                <VStack spacing={4}>
+                    <Spinner size="xl" />
+                    <Text>Loading products]...</Text>
+                </VStack>
+            </Container>
+        );
+    }
+
   return (
     <Container maxW="container.xl" p={{ base: 4, md: 12 }} id="top">
       <VStack spacing={6} align="stretch" ref={topRef}>
@@ -108,7 +120,6 @@ const HomePage = () => {
         >
           Current Products
         </Heading>
-
 
         <Flex
           direction={{ base: "column", sm: "row" }}
