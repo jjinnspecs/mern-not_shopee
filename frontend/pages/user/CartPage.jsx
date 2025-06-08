@@ -47,7 +47,7 @@ const CartPage = () => {
   } = useDisclosure();
   const cancelRef = useRef();
 
-  const bg = useColorModeValue("white", "gray.800");
+  const bg = useColorModeValue("white", "gray.700");
   const border = useColorModeValue("gray.200", "gray.700");
   const textColor = useColorModeValue("gray.700", "gray.200");
   const checkoutColor = useColorModeValue("white", "black");
@@ -143,15 +143,16 @@ const CartPage = () => {
           </Flex>
         
           <Flex direction={{ base: "column", sm: "row" }} gap={4}>
+            <HStack>
             <Image
               src={item.product.image}
               alt={item.product.name}
-              boxSize={{ base: "100%", sm: "120px" }}
+              boxSize="60px"
               objectFit="cover"
               borderRadius="md"
             />
-            <Box flex="1">
-              <Text fontWeight="bold" fontSize="lg" mb={2}>{item.product.name}</Text>
+            <Box flex="1" alignItems="center" fontSize="sm">
+              <Text fontWeight="bold" mb={2}>{item.product.name}</Text>
               <Text color="gray.500" mb={2}>
                 ₱ {item.product.price.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
               </Text>
@@ -177,6 +178,7 @@ const CartPage = () => {
                 </Badge>
               </Flex>
             </Box>
+            </HStack>
           </Flex>
         </CardBody>
       </Card>
@@ -270,8 +272,8 @@ const CartPage = () => {
 
           <Flex justify="flex-end" mt={6}>
             <Box textAlign="right">
-              <Text fontSize="xl" fontWeight="bold">Grand Total:</Text>
-              <Text fontSize="2xl" color="teal.500" fontWeight="bold">
+              <Text fontSize="lg" fontWeight="bold">Grand Total:</Text>
+              <Text fontSize="lg" color="teal.500" fontWeight="bold">
                 ₱ {grandTotal.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
               </Text>
               <Button 
