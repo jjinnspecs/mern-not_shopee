@@ -13,13 +13,15 @@ import {
   InputRightElement,
   Skeleton,
   SkeletonText,
-  Spinner
+  Spinner,
+  Box
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useProductStore } from "../src/store/product";
 import { useCategoryStore } from "../src/store/category";
 import ProductCard from "../components/ProductCard";
+import Footer from "../components/Footer";
 
 
 const HomePage = () => {
@@ -102,13 +104,15 @@ const HomePage = () => {
             <Container maxW="container.xl" py={8}>
                 <VStack spacing={4}>
                     <Spinner size="xl" />
-                    <Text>Loading products]...</Text>
+                    <Text>Loading products...</Text>
                 </VStack>
             </Container>
         );
     }
 
   return (
+    <Box minH="100vh" display="flex" flexDirection="column">
+    <Box flex="1">
     <Container maxW="container.xl" p={{ base: 4, md: 12 }} id="top">
       <VStack spacing={6} align="stretch" ref={topRef}>
         <Heading
@@ -241,6 +245,9 @@ const HomePage = () => {
         )}
       </VStack>
     </Container>
+    </Box>
+    <Footer />
+    </Box>
   );
 };
 
