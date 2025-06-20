@@ -184,7 +184,7 @@ const IndexOrders = () => {
     }
 
       return (
-        <Container maxW="container.xl" py={12}>
+        <Container maxW="full" py={12}>
           <VStack spacing={8} align="stretch">
             <Heading as="h1"
              size={{base: "lg", md: "xl" }} 
