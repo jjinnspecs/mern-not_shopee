@@ -333,7 +333,7 @@ const IndexProducts = () => {
                     <Image src={product.image} alt={product.name} boxSize="60px" objectFit="cover" />
                   </Td>
                   <Td>{product.name}</Td>
-                  <Td>${product.price}</Td>
+                  <Td>₱ {product.price}</Td>
                   <Td>{category ? category.name : "Unknown"}</Td>
                   <Td>
                     <ButtonGroup spacing={2}>
