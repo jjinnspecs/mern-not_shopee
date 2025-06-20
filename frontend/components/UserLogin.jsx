@@ -67,10 +67,12 @@ const UserRequestOtp = ({ onOtpRequested }) => {
               required
             />
             <Button
+              disabled={!email}
               type="submit"
               colorScheme="teal"
               size="md"
               w={{ base: "full", sm: "auto" }}
+              px={{ base: 6, sm: 8 }}
             >
               Request OTP
             </Button>

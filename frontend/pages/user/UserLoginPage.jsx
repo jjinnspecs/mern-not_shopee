@@ -8,7 +8,7 @@ const UserLoginPage = () => {
   const [email, setEmail] = useState("");
 
   return (
-    <Container maxW={"container.sm"} p={12}>
+    <Container maxW={"container.sm"} p={6}>
         <Box
         w="full"
         maxW={{ base: "100%", md: "lg"}}
