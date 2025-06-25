@@ -23,7 +23,7 @@ const CheckoutPage = () => {
         deliveryAddress: "",
         billingAddress: "",
         sameAsDelivery: true,
-        paymentMethod: "gcash",
+        paymentMethod: "cod",
     });
     const [loading, setLoading] = useState(false);
     const Toast = useToast();
