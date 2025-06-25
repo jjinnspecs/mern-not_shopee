@@ -3,6 +3,7 @@ import {
     Box, Button, 
     Checkbox, FormControl,
     FormLabel, Input,
+    HStack,
     VStack, Heading,
     Select, useToast,
     Text
@@ -86,6 +87,7 @@ const CheckoutPage = () => {
                 }
             } catch (error) {
                 Toast({ title: "Checkout error", status: "error" });
+                navigate("/error");
             }
             setLoading(false);
         };
@@ -177,19 +179,41 @@ const CheckoutPage = () => {
                         </Button>
                     </VStack>
                 )}
-                <Box mt={6}>
-                    <Text fontWeight="bold">Cart Summary:</Text>
-                    {cart?.items?.map(item => (
-                        <Text key={item.product._id}>
-                            {item.product.name} x {item.quantity} = ₱{" "}
-                            {(item.product.price * item.quantity).toLocaleString("en-PH", { minimumFractionDigits: 2 })}
-                        </Text>
-                    ))}
-                    <Text mt={2} fontWeight="bold">
-                        Total: ₱{" "}{cart?.items?.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
-                        .toLocaleString("en-PH", { minimumFractionDigits: 2 })}
-                    </Text>
+                <Box mt={6} borderTop="1px solid" borderColor="gray.200" pt={4}>
+  <Heading size="sm" mb={3} color="gray.600" textAlign="left">
+    Cart Summary
+  </Heading>
+
+  <VStack align="stretch" spacing={3}>
+    {cart?.items?.map(item => {
+      const subtotal = item.product.price * item.quantity;
+      return (
+        <Box key={item.product._id}>
+          <Text fontSize="sm" fontWeight="medium" noOfLines={2}>
+            {item.product.name}
+          </Text>
+          <HStack justify="space-between" fontSize="sm" color="gray.600">
+            <Text>{item.quantity} × ₱{item.product.price.toLocaleString("en-PH", { minimumFractionDigits: 2 })}</Text>
+            <Text fontWeight="semibold">
+              ₱{subtotal.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
+            </Text>
+          </HStack>
+        </Box>
+      );
+    })}
+  </VStack>
+
+  <Box mt={4} pt={2} borderTop="1px dashed" borderColor="gray.300">
+    <HStack justify="space-between">
+      <Text fontWeight="bold" fontSize="md">Total</Text>
+      <Text fontWeight="bold" fontSize="md" color="teal.600">
+        ₱{cart?.items?.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
+          .toLocaleString("en-PH", { minimumFractionDigits: 2 })}
+      </Text>
+    </HStack>
+  </Box>
                 </Box>
+
             </Box>
         );
 };

@@ -90,7 +90,8 @@ export const createPaymongoCheckout = async (req, res) => {
                             // success: "http://localhost:5173/success",
                             // failed: "http://localhost:5173/error",
                             success: "https://mern-not-shopee.onrender.com/success",
-                            failed: "https://mern-not-shopee.onrender.com/errorr"
+                            failed: "https://mern-not-shopee.onrender.com/error",
+                            expired: "https://mern-not-shopee.onrender.com/error",
                         },
                         metadata: {
                             userId: userId.toString(),

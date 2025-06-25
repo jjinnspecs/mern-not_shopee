@@ -29,6 +29,7 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import { useAuthStore } from "../../src/store/auth";
@@ -36,6 +37,8 @@ import { useOrderStore } from "../../src/store/order";
 import { formatDate } from "../../src/utils/dateUtils";
 
 const OrdersPage = () => {
+
+  const navigate = useNavigate();
   const { user } = useAuthStore();
   const { orders, loading, error, fetchUserOrders } = useOrderStore();
 
@@ -93,6 +96,8 @@ const OrdersPage = () => {
     setIsViewDetailsOpen(false);
     setSelectedOrder(null);
   };
+
+  
 
   if (loading) {
     return (
