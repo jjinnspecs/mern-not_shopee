@@ -177,7 +177,7 @@ const OrdersPage = () => {
                 key={order._id}
                 order={order}
                 getStatusColor={getStatusColor}
-                bgColor={bgColor}
+                bgColor={orderBgColor}
                 textColor={textColor}
                 onView={handleViewDetails}
               />

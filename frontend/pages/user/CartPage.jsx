@@ -50,7 +50,7 @@ const CartPage = () => {
 
   const cancelRef = useRef();
 
-  const bgColor = useColorModeValue("white", "gray.800");
+  const bgColor = useColorModeValue("white", "gray.700");
   const border = useColorModeValue("gray.200", "gray.700");
   const textColor = useColorModeValue("gray.700", "gray.200");
   const checkoutTextColor = useColorModeValue("white", "black");
