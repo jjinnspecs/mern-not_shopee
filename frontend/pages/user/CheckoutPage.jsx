@@ -163,8 +163,8 @@ const CheckoutPage = () => {
                              onChange={handleChange}
                              >
                                 {/* <option value="gcash">GCash</option> */}
-                                <option value="grab_pay">GrabPay</option>
                                 <option value="cod">Cash on Delivery</option>
+                                <option value="grab_pay">GrabPay</option>
                             </Select>
                         </FormControl>
                         <Button colorScheme="orange"
