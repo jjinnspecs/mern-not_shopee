@@ -137,61 +137,66 @@ const CartPage = () => {
     );
   }
 
-  const renderItem = (item, idx) => {
-    const qty = quantities[item.product._id] || item.quantity;
-    const total = item.product.price * qty;
+const renderItem = (item) => {
+  const qty = quantities[item.product._id] || item.quantity;
+  const total = item.product.price * qty;
 
-    return (
-      <Card key={item.product._id} mb={4} bgColor={bgColor}>
-        <CardBody>
-          <Flex justify="flex-end" mb={2}>
-            <Button size="sm" colorScheme="red" onClick={() => confirmRemove(item.product._id)}>
-              Remove
-            </Button>
-          </Flex>
+  return (
+    <Card key={item.product._id} mb={4} bgColor={bgColor}>
+      <CardBody position="relative" pb={6}>
+        <Box position="absolute" top={2} right={2}>
+          <Button
+            size="sm"
+            colorScheme="red"
+            onClick={() => confirmRemove(item.product._id)}
+          >
+            <FaTrash />
+          </Button>
+        </Box>
 
-          <Flex direction={{ base: "column", sm: "row" }} gap={4}>
-            <HStack>
-              <Image
-                src={item.product.image}
-                alt={item.product.name}
-                boxSize="60px"
-                objectFit="cover"
-                borderRadius="md"
-              />
-              <Box fontSize="sm">
-                <Text fontWeight="bold" mb={2}>{item.product.name}</Text>
-                <Text color="gray.500" mb={2}>
-                  ₱ {item.product.price.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
-                </Text>
-                <Flex justify="space-between" align="center">
-                  <HStack>
-                    <IconButton
-                      icon={<MinusIcon />}
-                      size="sm"
-                      onClick={() => handleQuantityChange(item.product._id, -1)}
-                      aria-label="Decrease quantity"
-                      isDisabled={qty <= 1}
-                    />
-                    <Text>{qty}</Text>
-                    <IconButton
-                      icon={<AddIcon />}
-                      size="sm"
-                      onClick={() => handleQuantityChange(item.product._id, 1)}
-                      aria-label="Increase quantity"
-                    />
-                  </HStack>
-                  <Badge colorScheme="teal" p={2} borderRadius="md">
-                    ₱ {total.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
-                  </Badge>
-                </Flex>
-              </Box>
-            </HStack>
-          </Flex>
-        </CardBody>
-      </Card>
-    );
-  };
+        <Flex direction={{ base: "column", sm: "row" }} gap={4}>
+          <Image
+            src={item.product.image}
+            alt={item.product.name}
+            boxSize="80px"
+            objectFit="cover"
+            borderRadius="md"
+            mx={{ base: "auto", sm: "0" }}
+          />
+          <Box flex="1" fontSize="sm">
+            <Text fontWeight="bold" mb={1}>{item.product.name}</Text>
+            <Text color="gray.500" mb={2}>
+              ₱ {item.product.price.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
+            </Text>
+
+            <Flex justify="space-between" align="center">
+              <HStack>
+                <IconButton
+                  icon={<MinusIcon />}
+                  size="sm"
+                  onClick={() => handleQuantityChange(item.product._id, -1)}
+                  aria-label="Decrease quantity"
+                  isDisabled={qty <= 1}
+                />
+                <Text>{qty}</Text>
+                <IconButton
+                  icon={<AddIcon />}
+                  size="sm"
+                  onClick={() => handleQuantityChange(item.product._id, 1)}
+                  aria-label="Increase quantity"
+                />
+              </HStack>
+              <Badge colorScheme="teal" p={2} borderRadius="md">
+                ₱ {total.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
+              </Badge>
+            </Flex>
+          </Box>
+        </Flex>
+      </CardBody>
+    </Card>
+  );
+};
+
 
   return (
     <Container maxW="container.lg" py={6}>
@@ -206,68 +211,72 @@ const CartPage = () => {
           {isMobile
             ? cart.items.map(renderItem)
             : (
-              <Box boxShadow="sm" borderRadius="md" bgColor={bgColor}>
-                <Flex p={4} fontWeight="bold" borderBottom="1px solid" borderColor={border}>
-                  <Box w="50px" color={textColor}>#</Box>
-                  <Box w="100px" color={textColor}>Image</Box>
-                  <Box flex="1" color={textColor}>Product</Box>
-                  <Box w="120px" color={textColor}>Price</Box>
-                  <Box w="150px" color={textColor}>Quantity</Box>
-                  <Box w="120px" color={textColor}>Total</Box>
-                  <Box w="50px" />
-                </Flex>
-                {cart.items.map((item, idx) => {
-                  const qty = quantities[item.product._id] || item.quantity;
-                  const total = item.product.price * qty;
+            <Box boxShadow="sm" borderRadius="md" bgColor={bgColor}>
+              {/* Header */}
+              <Flex p={4} fontWeight="bold" borderBottom="1px solid" borderColor={border} align="center">
+                <Box w="50px" color={textColor}>#</Box>
+                <Box w="100px" color={textColor}>Image</Box>
+                <Box w="200px" color={textColor}>Product</Box>
+                <Box w="120px" color={textColor}>Price</Box>
+                <Box w="150px" color={textColor}>Quantity</Box>
+                <Box w="120px" color={textColor}>Total</Box>
+                <Box w="100px" color={textColor} textAlign="center"></Box>
+              </Flex>
 
-                  return (
-                    <Flex key={item.product._id} p={4} align="center" borderBottom="1px solid" borderColor={border}>
-                      <Box w="50px">{idx + 1}</Box>
-                      <Box w="100px">
-                        <Image
-                          src={item.product.image}
-                          alt={item.product.name}
-                          boxSize="80px"
-                          objectFit="cover"
-                          borderRadius="md"
+              {/* Rows */}
+              {cart.items.map((item, idx) => {
+                const qty = quantities[item.product._id] || item.quantity;
+                const total = item.product.price * qty;
+
+                return (
+                  <Flex key={item.product._id} p={4} align="center" borderBottom="1px solid" borderColor={border}>
+                    <Box w="50px">{idx + 1}</Box>
+                    <Box w="100px">
+                      <Image
+                        src={item.product.image}
+                        alt={item.product.name}
+                        boxSize="80px"
+                        objectFit="cover"
+                        borderRadius="md"
+                      />
+                    </Box>
+                    <Box w="200px">{item.product.name}</Box>
+                    <Box w="120px">
+                      ₱ {item.product.price.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
+                    </Box>
+                    <Box w="150px">
+                      <Flex align="center">
+                        <IconButton
+                          icon={<MinusIcon />}
+                          size="sm"
+                          aria-label="Decrease quantity"
+                          onClick={() => handleQuantityChange(item.product._id, -1)}
+                          isDisabled={qty <= 1}
+                          mr={2}
                         />
-                      </Box>
-                      <Box flex="1">{item.product.name}</Box>
-                      <Box w="120px">
-                        ₱ {item.product.price.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
-                      </Box>
-                      <Box w="150px">
-                        <Flex align="center">
-                          <IconButton
-                            icon={<MinusIcon />}
-                            size="sm"
-                            aria-label="Decrease quantity"
-                            onClick={() => handleQuantityChange(item.product._id, -1)}
-                            isDisabled={qty <= 1}
-                            mr={2}
-                          />
-                          <Text>{qty}</Text>
-                          <IconButton
-                            icon={<AddIcon />}
-                            size="sm"
-                            aria-label="Increase quantity"
-                            onClick={() => handleQuantityChange(item.product._id, 1)}
-                            ml={2}
-                          />
-                        </Flex>
-                      </Box>
-                      <Box w="120px">
-                        ₱ {total.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
-                      </Box>
-                      <Box>
-                        <Button size="sm" colorScheme="red" onClick={() => confirmRemove(item.product._id)}>
-                          Remove
-                        </Button>
-                      </Box>
-                    </Flex>
-                  );
-                })}
-              </Box>
+                        <Text>{qty}</Text>
+                        <IconButton
+                          icon={<AddIcon />}
+                          size="sm"
+                          aria-label="Increase quantity"
+                          onClick={() => handleQuantityChange(item.product._id, 1)}
+                          ml={2}
+                        />
+                      </Flex>
+                    </Box>
+                    <Box w="120px">
+                      ₱ {total.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
+                    </Box>
+                    <Box w="100px" textAlign="center">
+                      <Button size="sm" colorScheme="red" onClick={() => confirmRemove(item.product._id)}>
+                        Remove
+                      </Button>
+                    </Box>
+                  </Flex>
+                );
+              })}
+            </Box>
+
             )}
 
           <Flex justify="flex-end" mt={6}>
