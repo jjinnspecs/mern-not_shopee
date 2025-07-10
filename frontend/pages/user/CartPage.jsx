@@ -96,9 +96,10 @@ const CartPage = () => {
 
   const handleRemove = async () => {
     const res = await removeFromCart({ userId: user._id, productId: selectedProductId });
+    console.log("Remove response:", res);
     toast({
       title: res.success ? "Removed from cart" : "Error",
-      description: res.message || "Failed to remove item.",
+      description: res.success ? "Item successfully removed." : "Failed to remove item.",
       status: res.success ? "success" : "error",
       duration: 2000,
       isClosable: true,
